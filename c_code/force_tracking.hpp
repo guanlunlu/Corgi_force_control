@@ -44,6 +44,10 @@ Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des)
     Eigen::Matrix2d J_1 = jacG(tb).inverse();
     Eigen::Vector2d dtb = J_1 * dX_t;
     Eigen::Vector2d ddtb = J_1 * (ddX_t - djacG(tb, dtb) * J_1 * dtb);
+
+    Eigen::Vector2d rb(Rm(tb[0]), tb[1]);
+    Eigen::Vector2d drb(dRm(tb[0], dtb[0]), dtb[1]);
+    Eigen::Vector2d ddrb(ddRm(tb[0], dtb[0], ddtb[0]), ddtb[1]);
 }
 
 #endif
