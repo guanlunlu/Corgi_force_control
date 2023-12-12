@@ -16,23 +16,21 @@ public:
         matlab::data::ArrayFactory factory; // create output arrays
         matlab::data::TypedArray<double> x = std::move(inputs[0]);
         matlab::data::TypedArray<double> y = std::move(inputs[1]);
+        matlab::data::TypedArray<double> K = std::move(inputs[2]);
+        matlab::data::TypedArray<double> D = std::move(inputs[3]);
+        matlab::data::TypedArray<double> M = std::move(inputs[4]);
 
-        std::cout << "x" << x[0] << x[1] << std::endl;
-        std::cout << "y" << y[0] << y[1] << std::endl;
+        Eigen::Matrix<double, 3, 2> X_des;
+        X_des << x[0], y[0],
+            x[1], y[1],
+            x[2], y[2];
 
-        matlab::data::TypedArray<double> z = factory.createArray({2, 2}, {0.0, 0.0, 0.0, 0.0});
+        std::cout << "X_des \n"
+                  << X_des << std::endl;
 
-        for (auto &i : x)
-        {
-            i += 5;
-        }
+        matlab::data::TypedArray<double> z = factory.createArray({1, 2}, {0.0, 0.0});
 
-        for (auto &i : y)
-        {
-            i -= 5;
-        }
-
-        z = factory.createArray({2, 2}, {double(x[0]), double(x[1]), double(y[0]), double(y[1])});
+        z = factory.createArray({1, 2}, {0.0, 1.0});
         outputs[0] = z;
     }
 };

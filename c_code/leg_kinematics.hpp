@@ -21,8 +21,14 @@ Eigen::VectorXd dd_rm_coeff(3);
 Eigen::VectorXd Ic_coeff(5);
 Eigen::VectorXd d_Ic_coeff(4);
 
+double leg_m;
+double g;
+
 void kinematics_setup()
 {
+    /* Physics prop. (SI units)*/
+    leg_m = 0.654;
+    g = 9.80665;
     /* Kinematics model coeff. */
     fk_pc_ << -0.0004362, 0.00715474, -0.04529168, 0.13936602, -0.22479562, 0.19297458, 0.01846436, 0.08280706;
     d_fk_pc_ = polyder(fk_pc_);
@@ -34,7 +40,7 @@ void kinematics_setup()
     Ic_coeff << 0.0001, -0.0001, -0.0013, 0.0043, 0.0041;
     d_rm_coeff = polyder(rm_coeff);
     dd_rm_coeff = polyder(rm_coeff);
-    dIc_coeff = polyder(Ic_coeff);
+    d_Ic_coeff = polyder(Ic_coeff);
 }
 
 Eigen::Vector2d phi2tb(const Eigen::Vector2d &phi)
@@ -146,23 +152,37 @@ Eigen::Vector2d jointTrq2footendForce(const Eigen::Vector2d &joint_tau, const Ei
     return J_1_T * joint_tau;
 }
 
-double Rm(const double& theta){
+Eigen::Vector2d FrmTb2jointTrq(const Eigen::Vector2d &FrmTb, double theta)
+{
+    Eigen::Matrix2d J_phi{{1 / 2, -1 / 2},
+                          {1 / 2, 1 / 2}};
+    Eigen::Matrix2d J_theta{{polyval(d_rm_coeff, theta), 0},
+                            {0, 1}};
+    return J_phi.transpose() * J_theta.transpose() * FrmTb;
+}
+
+double Rm(const double &theta)
+{
     return polyval(rm_coeff, theta);
 }
 
-double Ic(const double& theta){
+double Ic(const double &theta)
+{
     return polyval(Ic_coeff, theta);
 }
 
-double dRm(const double& theta, const double& dtheta){
+double dRm(const double &theta, const double &dtheta)
+{
     return polyval(d_rm_coeff, theta) * dtheta;
 }
 
-double ddRm(const double& theta, const double& dtheta, const double& ddtheta){
+double ddRm(const double &theta, const double &dtheta, const double &ddtheta)
+{
     return polyval(d_rm_coeff, theta) * ddtheta + polyval(dd_rm_coeff, theta) * dtheta * dtheta;
 }
 
-double dIc(const double& theta, const double& dtheta){
+double dIc(const double &theta, const double &dtheta)
+{
     return polyval(d_Ic_coeff, theta) * dtheta;
 }
 

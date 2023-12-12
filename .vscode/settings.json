@@ -65,6 +65,7 @@
         "condition_variable": "cpp",
         "future": "cpp",
         "mutex": "cpp",
-        "cholesky": "cpp"
+        "cholesky": "cpp",
+        "core": "cpp"
     }
 }

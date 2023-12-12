@@ -10,7 +10,7 @@
 {
 } */
 
-Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &K, const Eigen::Matrix2d &D, const Eigen::Matrix2d &M,
+Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
                                 const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 3, 2> &Xfb,
                                 const Eigen::Vector2d &tb, const Eigen::Vector2d &Tfb)
 {
@@ -36,18 +36,35 @@ Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des)
     /* X_des = [xt, yt,
                 d_xt, d_yt,
                 dd_xt, dd_yt] */
-    Eigen::Vector2d X_t = X_des.row(0);
-    Eigen::Vector2d dX_t = X_des.row(1);
-    Eigen::Vector2d ddX_t = X_des.row(2);
+    Eigen::Vector2d Xd_t = X_des.row(0);
+    Eigen::Vector2d dXd_t = X_des.row(1);
+    Eigen::Vector2d ddXd_t = X_des.row(2);
 
-    Eigen::Vector2d tb = ik(X_t);
+    Eigen::Vector2d tb = ik(Xd_t);
     Eigen::Matrix2d J_1 = jacG(tb).inverse();
-    Eigen::Vector2d dtb = J_1 * dX_t;
-    Eigen::Vector2d ddtb = J_1 * (ddX_t - djacG(tb, dtb) * J_1 * dtb);
+    Eigen::Vector2d dtb = J_1 * dXd_t;
+    Eigen::Vector2d ddtb = J_1 * (ddXd_t - djacG(tb, dtb) * J_1 * dtb);
 
-    Eigen::Vector2d rb(Rm(tb[0]), tb[1]);
-    Eigen::Vector2d drb(dRm(tb[0], dtb[0]), dtb[1]);
-    Eigen::Vector2d ddrb(ddRm(tb[0], dtb[0], ddtb[0]), ddtb[1]);
+    /* q = [Rm; beta] */
+    Eigen::Vector2d q(Rm(tb[0]), tb[1]);
+    Eigen::Vector2d dq(dRm(tb[0], dtb[0]), dtb[1]);
+    Eigen::Vector2d ddq(ddRm(tb[0], dtb[0], ddtb[0]), ddtb[1]);
+    Eigen::Matrix2d Mq;
+    Eigen::Vector2d Cq;
+    Eigen::Vector2d Gq;
+    Mq << leg_m, 0,
+        0, Ic(tb[0]) + leg_m * pow(q[0], 2);
+    Cq << -leg_m * q[0] * pow(q[1], 2),
+        2 * leg_m * q[0] * dq[0] * dq[1] + dIc(tb[0], dtb[0]) * dq[1];
+    Gq << -leg_m * g * cos(q[1]),
+        -leg_m * g * q[0] * sin(q[1]);
+
+    Eigen::Vector2d Frm_Tb;
+    Eigen::Vector2d joint_trq;
+    Frm_Tb = Mq * ddq + Cq + Gq;
+    joint_trq = FrmTb2jointTrq(Frm_Tb, tb[0]);
+
+    return joint_trq;
 }
 
 #endif
