@@ -38,13 +38,15 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 {
     int_T i;
     InputRealPtrsType uPtrs = ssGetInputPortRealSignalPtrs(S, 0);
-    real_T *y = ssGetOutputPortRealSignal(S, 0);
+    real_T *output = ssGetOutputPortRealSignal(S, 0);
     int_T width = ssGetOutputPortWidth(S, 0);
 
     Eigen::Matrix<double, 3, 2> X_des;
-    Eigen::Matrix<double, 3, 2> X_fb;
+    Eigen::Matrix<double, 2, 2> TB_fb;
+    Eigen::Vector2d T_fb; // reply torque
     X_des << *uPtrs[0], *uPtrs[3], *uPtrs[1], *uPtrs[4], *uPtrs[2], *uPtrs[5];
-    X_fb << *uPtrs[6], *uPtrs[9], *uPtrs[7], *uPtrs[10], *uPtrs[8], *uPtrs[11];
+    TB_fb << *uPtrs[6], *uPtrs[7], *uPtrs[8], *uPtrs[9];
+    T_fb << *uPtrs[10], *uPtrs[11];
 
     Eigen::Matrix2d M{{*uPtrs[12], 0},
                       {0, *uPtrs[13]}};
@@ -57,8 +59,10 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     std::cout << X_des << std::endl;
 
-    *y = 2.0 * (*uPtrs[0]);   // trq_phiR
-    *y++ = 2.0 * (*uPtrs[0]); // trq_phiL
+    Eigen::Vector2d Xeef_ddot = ImpedanceFilter(M, K, D, X_des, TB_fb, T_fb);
+
+    *output = Xeef_ddot[0];   // dd_x
+    *output++ = Xeef_ddot[1]; // dd_y
 }
 
 static void mdlTerminate(SimStruct *S) {}

@@ -11,22 +11,29 @@
 } */
 
 Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
-                                const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 3, 2> &Xfb,
-                                const Eigen::Vector2d &tb, const Eigen::Vector2d &Tfb)
+                                const Eigen::Matrix<double, 3, 2>&Xref, const Eigen::Matrix<double, 2, 2> &TB_fb,
+                                const Eigen::Vector2d &T_fb)
 {
     /* Xref = [x_ref, y_ref;
               dx_ref, dy_ref;
               ddx_ref, ddy_ref] */
+    /* TB_fb = [theta, beta;
+               dtheta, dbeta] */
     /* Fext: Force exert to leg (Obtain by Virtual work method)*/
     /* Xeef_ddot: End-effector acc. */
 
-    Eigen::Matrix<double, 3, 2> Xe = Xref - Xfb;
-    Eigen::Vector2d Xeef_ddot;
-    Eigen::Vector2d Xref_ddot = Xref.row(2);
-    Eigen::Vector2d Xe_pos = Xe.row(0);
-    Eigen::Vector2d Xe_vel = Xe.row(1);
-    Eigen::Vector2d Fext = jointTrq2footendForce(Tfb, tb);
+    /* Transform joint state to foot-end state */
+    std::vector<Eigen::Vector2d> footend_state;
+    footend_state = joint2footend_transform(TB_fb.row(0), TB_fb.row(1));
+    Eigen::Vector2d fe_fb_pos = footend_state[0];
+    Eigen::Vector2d fe_fb_vel = footend_state[1];
 
+    Eigen::Vector2d Xref_ddot = Xref.row(2);
+    Eigen::Vector2d Xe_pos = Xref.row(0).transpose() - fe_fb_pos;
+    Eigen::Vector2d Xe_vel = Xref.row(1).transpose() - fe_fb_vel;
+    Eigen::Vector2d Fext = jointTrq2footendForce(T_fb, TB_fb.row(0));
+
+    Eigen::Vector2d Xeef_ddot;
     Xeef_ddot = Xref_ddot + M.inverse() * (K * (Xe_pos) + D * (Xe_vel) + Fext);
     return Xeef_ddot;
 }
