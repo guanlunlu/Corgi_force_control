@@ -1,4 +1,4 @@
-#define S_FUNCTION_NAME impedance_filter_smex /* Defines and Includes */
+#define S_FUNCTION_NAME inverse_dynamics_smex /* Defines and Includes */
 #define S_FUNCTION_LEVEL 2
 #include "stdio.h"
 #include "simstruc.h"
@@ -15,7 +15,7 @@ static void mdlInitializeSizes(SimStruct *S)
 
     if (!ssSetNumInputPorts(S, 1))
         return;
-    ssSetInputPortWidth(S, 0, 18);
+    ssSetInputPortWidth(S, 0, 6);
     ssSetInputPortDirectFeedThrough(S, 0, 1);
 
     if (!ssSetNumOutputPorts(S, 1))
@@ -41,26 +41,16 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     real_T *output = ssGetOutputPortRealSignal(S, 0);
     int_T width = ssGetOutputPortWidth(S, 0);
 
-    Eigen::Matrix<double, 3, 2> X_des;
-    Eigen::Matrix<double, 2, 2> TB_fb;
-    Eigen::Vector2d T_fb; // reply torque
-    X_des << *uPtrs[0], *uPtrs[3], *uPtrs[1], *uPtrs[4], *uPtrs[2], *uPtrs[5];
-    TB_fb << *uPtrs[6], *uPtrs[7], *uPtrs[8], *uPtrs[9];
-    T_fb << *uPtrs[10], *uPtrs[11];
+    /* X_t = [x_eef, y_eef;
+              dx_eef, dy_eef;
+              ddx_eef, ddy_eef] */
+    Eigen::Matrix<double, 3, 2> X_t;
+    X_t << *uPtrs[0], *uPtrs[1],
+           *uPtrs[2], *uPtrs[3],
+           *uPtrs[4], *uPtrs[5];
 
-    Eigen::Matrix2d M{{*uPtrs[12], 0},
-                      {0, *uPtrs[13]}};
-
-    Eigen::Matrix2d K{{*uPtrs[14], 0},
-                      {0, *uPtrs[15]}};
-
-    Eigen::Matrix2d D{{*uPtrs[16], 0},
-                      {0, *uPtrs[17]}};
-
-    Eigen::Vector2d Xeef_ddot = ImpedanceFilter(M, K, D, X_des, TB_fb, T_fb);
-
-    *output = Xeef_ddot[0];   // dd_x
-    *output++ = Xeef_ddot[1]; // dd_y
+    Eigen::Vector2d joint_trq;
+    joint_trq = InverseDyanmics(X_t);
 }
 
 static void mdlTerminate(SimStruct *S) {}
