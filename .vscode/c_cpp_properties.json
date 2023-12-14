@@ -6,7 +6,9 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/c_code",
                 "/usr/include/eigen3",
-                "/usr/local/MATLAB/R2022b/extern/include"
+                "/usr/local/MATLAB/R2022b/extern/include",
+                "/usr/local/include/eigen3",
+                "/home/matlab/extern/include"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",
