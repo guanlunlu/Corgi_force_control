@@ -41,16 +41,20 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     real_T *output = ssGetOutputPortRealSignal(S, 0);
     int_T width = ssGetOutputPortWidth(S, 0);
 
+    kinematics_setup();
+
     /* X_t = [x_eef, y_eef;
               dx_eef, dy_eef;
               ddx_eef, ddy_eef] */
     Eigen::Matrix<double, 3, 2> X_t;
     X_t << *uPtrs[0], *uPtrs[1],
-           *uPtrs[2], *uPtrs[3],
-           *uPtrs[4], *uPtrs[5];
+        *uPtrs[2], *uPtrs[3],
+        *uPtrs[4], *uPtrs[5];
 
     Eigen::Vector2d joint_trq;
     joint_trq = InverseDyanmics(X_t);
+    *output = joint_trq[0];
+    *output++ = joint_trq[1];
 }
 
 static void mdlTerminate(SimStruct *S) {}

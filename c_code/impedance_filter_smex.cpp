@@ -41,6 +41,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     real_T *output = ssGetOutputPortRealSignal(S, 0);
     int_T width = ssGetOutputPortWidth(S, 0);
 
+    kinematics_setup();
+
     Eigen::Matrix<double, 3, 2> X_des;
     Eigen::Matrix<double, 2, 2> TB_fb;
     Eigen::Vector2d T_fb; // reply torque
@@ -58,6 +60,11 @@ static void mdlOutputs(SimStruct *S, int_T tid)
                       {0, *uPtrs[17]}};
 
     Eigen::Vector2d Xeef_ddot = ImpedanceFilter(M, K, D, X_des, TB_fb, T_fb);
+    // std::cout << "-------- imp filt --------" << std::endl;
+    // std::cout << "Xdes = " << std::endl;
+    // std::cout << X_des << std::endl;
+    // std::cout << "Xeef_ddot = " << std::endl;
+    // std::cout << Xeef_ddot << std::endl;
 
     *output = Xeef_ddot[0];   // dd_x
     *output++ = Xeef_ddot[1]; // dd_y

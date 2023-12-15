@@ -11,7 +11,7 @@
 } */
 
 Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
-                                const Eigen::Matrix<double, 3, 2>&Xref, const Eigen::Matrix<double, 2, 2> &TB_fb,
+                                const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 2, 2> &TB_fb,
                                 const Eigen::Vector2d &T_fb)
 {
     /* Xref = [x_ref, y_ref;
@@ -25,6 +25,16 @@ Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d 
     /* Transform joint state to foot-end state */
     std::vector<Eigen::Vector2d> footend_state;
     footend_state = joint2footend_transform(TB_fb.row(0), TB_fb.row(1));
+    // std::cout << "-- fk --\n";
+    // std::cout << "ThetaBeta = \n";
+    // std::cout << TB_fb.row(0) << std::endl;
+    // std::cout << "d_ThetaBeta = \n";
+    // std::cout << TB_fb.row(1) << std::endl;
+    // std::cout << "fe_fb_pos = \n";
+    // std::cout << footend_state[0] << std::endl;
+    // std::cout << "fe_fb_vel = \n";
+    // std::cout << footend_state[1] << std::endl;
+
     Eigen::Vector2d fe_fb_pos = footend_state[0];
     Eigen::Vector2d fe_fb_vel = footend_state[1];
 
@@ -32,9 +42,30 @@ Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d 
     Eigen::Vector2d Xe_pos = Xref.row(0).transpose() - fe_fb_pos;
     Eigen::Vector2d Xe_vel = Xref.row(1).transpose() - fe_fb_vel;
     Eigen::Vector2d Fext = jointTrq2footendForce(T_fb, TB_fb.row(0));
+    Fext = Fext * -1;
 
     Eigen::Vector2d Xeef_ddot;
     Xeef_ddot = Xref_ddot + M.inverse() * (K * (Xe_pos) + D * (Xe_vel) + Fext);
+
+    // std::cout << "Xref_ddot: \n";
+    // std::cout << Xref_ddot << std::endl;
+
+    // std::cout << "Xe_pos: \n";
+    // std::cout << Xe_pos << std::endl;
+
+    // std::cout << "Xe_vel: \n";
+    // std::cout << Xe_vel << std::endl;
+
+    /* std::cout << "M: \n";
+    std::cout << M << std::endl;
+    std::cout << M.inverse() << std::endl;
+    std::cout << "K: \n";
+    std::cout << K << std::endl;
+    std::cout << "D: \n";
+    std::cout << D << std::endl; */
+    std::cout << "Fext: \n";
+    std::cout << Fext << std::endl;
+
     return Xeef_ddot;
 }
 
@@ -69,7 +100,9 @@ Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des)
     Eigen::Vector2d Frm_Tb;
     Eigen::Vector2d joint_trq;
     Frm_Tb = Mq * ddq + Cq + Gq;
+    std::cout << "Frm_Tb = " << Frm_Tb << std::endl;
     joint_trq = FrmTb2jointTrq(Frm_Tb, tb[0]);
+    std::cout << "joint_trq = " << joint_trq << std::endl;
 
     return joint_trq;
 }

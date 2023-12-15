@@ -154,11 +154,22 @@ Eigen::Vector2d jointTrq2footendForce(const Eigen::Vector2d &joint_tau, const Ei
 
 Eigen::Vector2d FrmTb2jointTrq(const Eigen::Vector2d &FrmTb, double theta)
 {
-    Eigen::Matrix2d J_phi{{1 / 2, -1 / 2},
-                          {1 / 2, 1 / 2}};
+    Eigen::Matrix2d J_phi{{0.5, -0.5},
+                          {0.5, 0.5}};
     Eigen::Matrix2d J_theta{{polyval(d_rm_coeff, theta), 0},
                             {0, 1}};
-    return J_phi.transpose() * J_theta.transpose() * FrmTb;
+    Eigen::Vector2d joint_trq;
+    joint_trq = J_phi.transpose() * J_theta.transpose() * FrmTb;
+
+    // std::cout << "J_phi\n";
+    // std::cout << J_phi.transpose() << std::endl;
+    // std::cout << "J_theta\n";
+    // std::cout << J_theta.transpose() << std::endl;
+    // std::cout << "FrmTb\n";
+    // std::cout << FrmTb << std::endl;
+
+    return joint_trq;
+    // return J_phi.transpose() * J_theta.transpose() * FrmTb;
 }
 
 double Rm(const double &theta)
