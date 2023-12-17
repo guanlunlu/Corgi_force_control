@@ -53,6 +53,12 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     Eigen::Vector2d joint_trq;
     joint_trq = InverseDyanmics(X_t);
+
+    std::cout << "--id--\n";
+    std::cout << X_t << std::endl;
+    std::cout << ".\n";
+    std::cout << joint_trq << std::endl;
+
     *output = joint_trq[0];
     *output++ = joint_trq[1];
 }
