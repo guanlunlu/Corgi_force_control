@@ -10,6 +10,7 @@ double polyval(const Eigen::VectorXd &coeff, double x);
 Eigen::VectorXd polyder(const Eigen::VectorXd &coeff);
 
 /* Polynomial fitting coeff. [fk: L_OG(theta) ik: theta(L_OG)] */
+double T_;
 Eigen::VectorXd fk_pc_(8);
 Eigen::VectorXd d_fk_pc_(7);
 Eigen::VectorXd dd_fk_pc_(6);
@@ -26,6 +27,7 @@ double g;
 
 void kinematics_setup()
 {
+    T_ = 0.001;
     /* Physics prop. (SI units)*/
     leg_m = 0.654;
     g = 9.80665;
@@ -134,10 +136,13 @@ std::vector<Eigen::Vector2d> joint2footend_transform(const Eigen::Vector2d &q, c
     std::vector<Eigen::Vector2d> footend_state;
     Eigen::Vector2d fe_pos;
     Eigen::Vector2d fe_vel;
+    // Eigen::Vector2d fe_acc;
     fe_pos = fk(q);
     fe_vel = jacG(q) * q_dot;
+    // fe_acc = jacG(q) * q_ddot + djacG(q, q_dot) * q_dot;
     footend_state.push_back(fe_pos);
     footend_state.push_back(fe_vel);
+    // footend_state.push_back(fe_acc);
     return footend_state;
 }
 
