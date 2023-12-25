@@ -77,18 +77,18 @@ rt_ssReportDiagnosticAsWarning ( void * S , void * diag ) {
 _ssReportDiagnosticAsWarning ( ( SimStruct * ) S , diag ) ; } void
 rt_ssReportDiagnosticAsInfo ( void * S , void * diag ) {
 _ssReportDiagnosticAsInfo ( ( SimStruct * ) S , diag ) ; } static void
-mdlOutputs ( SimStruct * S , int_T tid ) { real_T B_10_82_0 ; real_T
-B_10_84_0 ; B_Copy_of_linkleg_trajectory_contact_T * _rtB ;
+mdlOutputs ( SimStruct * S , int_T tid ) {
+B_Copy_of_linkleg_trajectory_contact_T * _rtB ;
 DW_Copy_of_linkleg_trajectory_contact_T * _rtDW ;
-P_Copy_of_linkleg_trajectory_contact_T * _rtP ; int32_T isHit ; uint8_T
-rtb_B_10_18_0 ; uint8_T rtb_B_10_21_0 ; boolean_T rtb_B_10_31_0 ; _rtDW = ( (
-DW_Copy_of_linkleg_trajectory_contact_T * ) ssGetRootDWork ( S ) ) ; _rtP = (
-( P_Copy_of_linkleg_trajectory_contact_T * ) ssGetModelRtp ( S ) ) ; _rtB = (
-( B_Copy_of_linkleg_trajectory_contact_T * ) _ssGetModelBlockIO ( S ) ) ;
-vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T * )
+P_Copy_of_linkleg_trajectory_contact_T * _rtP ; int32_T isHit ; boolean_T
+rtb_B_8_60_0 ; _rtDW = ( ( DW_Copy_of_linkleg_trajectory_contact_T * )
+ssGetRootDWork ( S ) ) ; _rtP = ( ( P_Copy_of_linkleg_trajectory_contact_T *
+) ssGetModelRtp ( S ) ) ; _rtB = ( ( B_Copy_of_linkleg_trajectory_contact_T *
+) _ssGetModelBlockIO ( S ) ) ; vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , (
+char_T * )
  "Copy_of_linkleg_trajectory_contact/Controller/initialize_switch/Initialize_/Data Store Read1"
-, 0 ) ; _rtB -> B_10_0_0 = _rtDW -> Initialize ; ssCallAccelRunBlock ( S , 10
-, 1 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 2 ,
+, 0 ) ; _rtB -> B_8_0_0 = _rtDW -> Initialize ; ssCallAccelRunBlock ( S , 8 ,
+1 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 8 , 2 ,
 SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 7 , 0 , SS_CALL_MDL_OUTPUTS
 ) ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) {
 ssCallAccelRunBlock ( S , 0 , 0 , SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock
@@ -109,150 +109,164 @@ TAQSigLogging_InsertedFor_MotorPose_to_ThetaBeta_at_outport_1_PWORK .
 AQHandles , ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_7_0_1 [ 1 ] + 0
 ) ; } } } vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T * )
  "Copy_of_linkleg_trajectory_contact/Controller/initialize_switch/Initialize_Flag3"
-, 0 ) ; _rtB -> B_10_17_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S ,
+, 0 ) ; _rtB -> B_8_17_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S ,
 1 , 0 ) ; if ( isHit != 0 ) { if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
-Compare_Mode = ( _rtB -> B_10_17_0 == _rtB -> B_10_3_0 ) ; } rtb_B_10_18_0 =
-_rtDW -> Compare_Mode ; { if ( _rtDW ->
+Compare_Mode = ( _rtB -> B_8_17_0 == _rtB -> B_8_3_0 ) ; } _rtB -> B_8_18_0_b
+= _rtDW -> Compare_Mode ; { if ( _rtDW ->
 TAQSigLogging_InsertedFor_CompareToConstant1_at_outport_0_PWORK . AQHandles
 && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_CompareToConstant1_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & rtb_B_10_18_0 + 0 ) ; } } }
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_18_0_b + 0 ) ; } } }
 vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T * )
  "Copy_of_linkleg_trajectory_contact/Controller/initialize_switch/Initialize_Flag2"
-, 0 ) ; _rtB -> B_10_20_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S ,
+, 0 ) ; _rtB -> B_8_20_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S ,
 1 , 0 ) ; if ( isHit != 0 ) { if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
-Compare_Mode_c = ( _rtB -> B_10_20_0 == _rtB -> B_10_4_0 ) ; } rtb_B_10_21_0
-= _rtDW -> Compare_Mode_c ; { if ( _rtDW ->
+Compare_Mode_c = ( _rtB -> B_8_20_0 == _rtB -> B_8_4_0 ) ; } _rtB ->
+B_8_21_0_p = _rtDW -> Compare_Mode_c ; { if ( _rtDW ->
 TAQSigLogging_InsertedFor_CompareToConstant2_at_outport_0_PWORK . AQHandles
 && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_CompareToConstant2_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & rtb_B_10_21_0 + 0 ) ; } } { if ( _rtDW
--> TAQSigLogging_InsertedFor_Initialize_Flag2_at_outport_0_PWORK . AQHandles
-&& ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_21_0_p + 0 ) ; } } { if (
+_rtDW -> TAQSigLogging_InsertedFor_Initialize_Flag2_at_outport_0_PWORK .
+AQHandles && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_Initialize_Flag2_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_20_0 + 0 ) ; } } { if (
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_20_0 + 0 ) ; } } { if (
 _rtDW -> TAQSigLogging_InsertedFor_Initialize_Flag3_at_outport_0_PWORK .
 AQHandles && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_Initialize_Flag3_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_17_0 + 0 ) ; } } }
-vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T * )
-"Copy_of_linkleg_trajectory_contact/Controller/Initialize_Flag2" , 0 ) ; _rtB
--> B_10_25_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if
-( isHit != 0 ) { if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
-Compare_Mode_m = ( _rtB -> B_10_25_0 == _rtB -> B_10_7_0 ) ; } _rtB ->
-B_10_27_0 [ 0 ] = _rtB -> B_10_8_0 [ 0 ] ; _rtB -> B_10_27_0 [ 1 ] = _rtB ->
-B_10_8_0 [ 1 ] ; ssCallAccelRunBlock ( S , 1 , 0 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 3 , 0 , SS_CALL_MDL_OUTPUTS ) ; }
-vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T * )
- "Copy_of_linkleg_trajectory_contact/Controller/initialize_switch/Initialize_Flag1"
-, 0 ) ; _rtB -> B_10_30_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S ,
-1 , 0 ) ; if ( isHit != 0 ) { if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
-Compare_Mode_l = ( _rtB -> B_10_30_0 == _rtB -> B_10_2_0_c ) ; }
-rtb_B_10_31_0 = _rtDW -> Compare_Mode_l ; if ( rtb_B_10_21_0 != 0 ) { _rtB ->
-B_10_33_0 = _rtB -> B_3_0_1 [ 0 ] ; } else if ( _rtDW -> Compare_Mode_l ) {
-_rtB -> B_10_33_0 = _rtB -> B_2_0_1 [ 0 ] ; } else { _rtB -> B_10_33_0 = _rtB
--> B_10_6_0 ; } { if ( _rtDW ->
-TAQSigLogging_InsertedFor_Switch4_at_outport_0_PWORK . AQHandles &&
-ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
-TAQSigLogging_InsertedFor_Switch4_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_33_0 + 0 ) ; } } if (
-rtb_B_10_18_0 != 0 ) { _rtB -> B_10_36_0 = _rtB -> B_3_0_1 [ 1 ] ; } else if
-( rtb_B_10_31_0 ) { _rtB -> B_10_36_0 = _rtB -> B_2_0_1 [ 1 ] ; } else { _rtB
--> B_10_36_0 = _rtB -> B_10_5_0 ; } { if ( _rtDW ->
-TAQSigLogging_InsertedFor_Switch5_at_outport_0_PWORK . AQHandles &&
-ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
-TAQSigLogging_InsertedFor_Switch5_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_36_0 + 0 ) ; } } } _rtB
--> B_10_38_0 = _rtB -> B_10_33_0 - _rtB -> B_10_2_0 [ 2 ] ; _rtB -> B_10_39_0
-= _rtP -> P_0 * _rtB -> B_10_38_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if
-( isHit != 0 ) { _rtB -> B_10_40_0 = _rtDW -> Filter_DSTATE ; } _rtB ->
-B_10_41_0 = _rtB -> B_10_39_0 - _rtB -> B_10_40_0 ; _rtB -> B_10_42_0 = _rtP
--> P_3 * _rtB -> B_10_38_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit
-!= 0 ) { _rtB -> B_10_43_0 = _rtDW -> Integrator_DSTATE ; } _rtB -> B_10_44_0
-= _rtP -> P_6 * _rtB -> B_10_41_0 ; _rtB -> B_10_45_0 = _rtP -> P_7 * _rtB ->
-B_10_38_0 ; _rtB -> B_10_46_0 = ( _rtB -> B_10_45_0 + _rtB -> B_10_43_0 ) +
-_rtB -> B_10_44_0 ; if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
-Saturation_MODE = _rtB -> B_10_46_0 >= _rtP -> P_8 ? 1 : _rtB -> B_10_46_0 >
-_rtP -> P_9 ? 0 : - 1 ; } _rtB -> B_10_47_0 = _rtDW -> Saturation_MODE == 1 ?
-_rtP -> P_8 : _rtDW -> Saturation_MODE == - 1 ? _rtP -> P_9 : _rtB ->
-B_10_46_0 ; _rtB -> B_10_48_0 = _rtB -> B_10_36_0 - _rtB -> B_10_2_0 [ 0 ] ;
-_rtB -> B_10_49_0 = _rtP -> P_10 * _rtB -> B_10_48_0 ; isHit = ssIsSampleHit
-( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtB -> B_10_50_0 = _rtDW ->
-Filter_DSTATE_g ; } _rtB -> B_10_51_0 = _rtB -> B_10_49_0 - _rtB -> B_10_50_0
-; _rtB -> B_10_52_0 = _rtP -> P_13 * _rtB -> B_10_48_0 ; isHit =
-ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtB -> B_10_53_0 = _rtDW
--> Integrator_DSTATE_b ; } _rtB -> B_10_54_0 = _rtP -> P_16 * _rtB ->
-B_10_51_0 ; _rtB -> B_10_55_0 = _rtP -> P_17 * _rtB -> B_10_48_0 ; _rtB ->
-B_10_56_0 = ( _rtB -> B_10_55_0 + _rtB -> B_10_53_0 ) + _rtB -> B_10_54_0 ;
-if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW -> Saturation_MODE_k = _rtB ->
-B_10_56_0 >= _rtP -> P_18 ? 1 : _rtB -> B_10_56_0 > _rtP -> P_19 ? 0 : - 1 ;
-} _rtB -> B_10_57_0 = _rtDW -> Saturation_MODE_k == 1 ? _rtP -> P_18 : _rtDW
--> Saturation_MODE_k == - 1 ? _rtP -> P_19 : _rtB -> B_10_56_0 ; isHit =
-ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { _rtDW -> Step_MODE = (
-ssGetTaskTime ( S , 1 ) >= _rtP -> P_20 ) ; if ( _rtDW -> Step_MODE == 1 ) {
-_rtB -> B_10_62_0 = _rtP -> P_22 ; } else { _rtB -> B_10_62_0 = _rtP -> P_21
-; } } _rtB -> B_10_66_0 = ( ssGetT ( S ) - _rtB -> B_10_16_0 ) * _rtB ->
-B_10_62_0 + _rtB -> B_10_17_0_k ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if (
-isHit != 0 ) { _rtB -> B_10_67_0 = _rtDW -> Delay3_DSTATE ; _rtB -> B_10_68_0
-= _rtDW -> Delay2_DSTATE ; _rtB -> B_10_69_0 = _rtDW -> Delay_DSTATE [ 0 ] ;
-_rtB -> B_10_70_0 = _rtDW -> Delay1_DSTATE [ 0 ] ; _rtB -> B_10_71_0 [ 0 ] =
-_rtDW -> Delay_DSTATE_b [ 0 ] ; _rtB -> B_10_72_0 [ 0 ] = _rtDW ->
-Delay1_DSTATE_a [ 0 ] ; _rtB -> B_10_71_0 [ 1 ] = _rtDW -> Delay_DSTATE_b [ 1
-] ; _rtB -> B_10_72_0 [ 1 ] = _rtDW -> Delay1_DSTATE_a [ 1 ] ; _rtB ->
-B_10_73_0 = _rtDW -> Delay3_DSTATE_k ; _rtB -> B_10_74_0 = _rtDW ->
-Delay2_DSTATE_o ; _rtB -> B_10_75_0 = _rtDW -> Delay_DSTATE_f [ 0 ] ; _rtB ->
-B_10_76_0 = _rtDW -> Delay1_DSTATE_p [ 0 ] ; } { real_T * * uBuffer = (
-real_T * * ) & _rtDW -> TransportDelay_PWORK . TUbufferPtrs [ 0 ] ; real_T
-simTime = ssGetT ( S ) ; real_T tMinusDelay = simTime - _rtP -> P_33 ; _rtB
--> B_10_77_0 = Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate (
-tMinusDelay , 0.0 , * uBuffer , _rtDW -> TransportDelay_IWORK .
-CircularBufSize , & _rtDW -> TransportDelay_IWORK . Last , _rtDW ->
-TransportDelay_IWORK . Tail , _rtDW -> TransportDelay_IWORK . Head , _rtP ->
-P_34 , 0 , ( boolean_T ) ( ssIsMinorTimeStep ( S ) && ( ( * uBuffer + _rtDW
--> TransportDelay_IWORK . CircularBufSize ) [ _rtDW -> TransportDelay_IWORK .
-Head ] == ssGetT ( S ) ) ) ) ; } { real_T * * uBuffer = ( real_T * * ) &
-_rtDW -> TransportDelay1_PWORK . TUbufferPtrs [ 0 ] ; real_T simTime = ssGetT
-( S ) ; real_T tMinusDelay = simTime - _rtP -> P_35 ; _rtB -> B_10_78_0 =
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_17_0 + 0 ) ; } } _rtDW ->
+Step_MODE = ( ssGetTaskTime ( S , 1 ) >= _rtP -> P_0 ) ; if ( _rtDW ->
+Step_MODE == 1 ) { _rtB -> B_8_25_0 = _rtP -> P_2 ; } else { _rtB -> B_8_25_0
+= _rtP -> P_1 ; } } _rtB -> B_8_27_0 = ssGetT ( S ) - _rtB -> B_8_17_0_k ;
+_rtB -> B_8_28_0 = _rtB -> B_8_25_0 * _rtB -> B_8_27_0 ; _rtB -> B_8_29_0 =
+_rtB -> B_8_28_0 + _rtB -> B_8_18_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ;
+if ( isHit != 0 ) { _rtB -> B_8_30_0 = _rtDW -> Delay3_DSTATE ; _rtB ->
+B_8_31_0 = _rtDW -> Delay2_DSTATE ; _rtB -> B_8_32_0 = _rtDW -> Delay_DSTATE
+[ 0 ] ; _rtB -> B_8_33_0 = _rtDW -> Delay1_DSTATE [ 0 ] ; _rtB -> B_8_34_0 [
+0 ] = _rtDW -> Delay_DSTATE_b [ 0 ] ; _rtB -> B_8_35_0 [ 0 ] = _rtDW ->
+Delay1_DSTATE_a [ 0 ] ; _rtB -> B_8_34_0 [ 1 ] = _rtDW -> Delay_DSTATE_b [ 1
+] ; _rtB -> B_8_35_0 [ 1 ] = _rtDW -> Delay1_DSTATE_a [ 1 ] ; _rtB ->
+B_8_36_0 = _rtDW -> Delay3_DSTATE_k ; _rtB -> B_8_37_0 = _rtDW ->
+Delay2_DSTATE_o ; _rtB -> B_8_38_0 = _rtDW -> Delay_DSTATE_f [ 0 ] ; _rtB ->
+B_8_39_0 = _rtDW -> Delay1_DSTATE_p [ 0 ] ; } { real_T * * uBuffer = ( real_T
+* * ) & _rtDW -> TransportDelay_PWORK . TUbufferPtrs [ 0 ] ; real_T simTime =
+ssGetT ( S ) ; real_T tMinusDelay = simTime - _rtP -> P_13 ; _rtB -> B_8_40_0
+= Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate ( tMinusDelay ,
+0.0 , * uBuffer , _rtDW -> TransportDelay_IWORK . CircularBufSize , & _rtDW
+-> TransportDelay_IWORK . Last , _rtDW -> TransportDelay_IWORK . Tail , _rtDW
+-> TransportDelay_IWORK . Head , _rtP -> P_14 , 0 , ( boolean_T ) (
+ssIsMinorTimeStep ( S ) && ( ( * uBuffer + _rtDW -> TransportDelay_IWORK .
+CircularBufSize ) [ _rtDW -> TransportDelay_IWORK . Head ] == ssGetT ( S ) )
+) ) ; } { real_T * * uBuffer = ( real_T * * ) & _rtDW ->
+TransportDelay1_PWORK . TUbufferPtrs [ 0 ] ; real_T simTime = ssGetT ( S ) ;
+real_T tMinusDelay = simTime - _rtP -> P_15 ; _rtB -> B_8_41_0 =
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate ( tMinusDelay ,
 0.0 , * uBuffer , _rtDW -> TransportDelay1_IWORK . CircularBufSize , & _rtDW
 -> TransportDelay1_IWORK . Last , _rtDW -> TransportDelay1_IWORK . Tail ,
-_rtDW -> TransportDelay1_IWORK . Head , _rtP -> P_36 , 0 , ( boolean_T ) (
+_rtDW -> TransportDelay1_IWORK . Head , _rtP -> P_16 , 0 , ( boolean_T ) (
 ssIsMinorTimeStep ( S ) && ( ( * uBuffer + _rtDW -> TransportDelay1_IWORK .
 CircularBufSize ) [ _rtDW -> TransportDelay1_IWORK . Head ] == ssGetT ( S ) )
 ) ) ; } ssCallAccelRunBlock ( S , 4 , 0 , SS_CALL_MDL_OUTPUTS ) ; isHit =
-ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtB -> B_10_80_0 [ 0 ] =
-_rtDW -> Delay1_DSTATE_a4 [ 0 ] ; _rtB -> B_10_81_0 [ 0 ] = _rtDW ->
-Delay_DSTATE_a [ 0 ] ; _rtB -> B_10_80_0 [ 1 ] = _rtDW -> Delay1_DSTATE_a4 [
-1 ] ; _rtB -> B_10_81_0 [ 1 ] = _rtDW -> Delay_DSTATE_a [ 1 ] ; } { real_T *
-* uBuffer = ( real_T * * ) & _rtDW -> TransportDelay_PWORK_n . TUbufferPtrs [
-0 ] ; real_T simTime = ssGetT ( S ) ; real_T tMinusDelay = simTime - _rtP ->
-P_39 ; B_10_82_0 =
+ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtB -> B_8_43_0 [ 0 ] =
+_rtDW -> Delay1_DSTATE_a4 [ 0 ] ; _rtB -> B_8_44_0 [ 0 ] = _rtDW ->
+Delay_DSTATE_a [ 0 ] ; _rtB -> B_8_43_0 [ 1 ] = _rtDW -> Delay1_DSTATE_a4 [ 1
+] ; _rtB -> B_8_44_0 [ 1 ] = _rtDW -> Delay_DSTATE_a [ 1 ] ; } { real_T * *
+uBuffer = ( real_T * * ) & _rtDW -> TransportDelay_PWORK_n . TUbufferPtrs [ 0
+] ; real_T simTime = ssGetT ( S ) ; real_T tMinusDelay = simTime - _rtP ->
+P_19 ; _rtB -> B_8_45_0 =
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate ( tMinusDelay ,
 0.0 , * uBuffer , _rtDW -> TransportDelay_IWORK_p . CircularBufSize , & _rtDW
 -> TransportDelay_IWORK_p . Last , _rtDW -> TransportDelay_IWORK_p . Tail ,
-_rtDW -> TransportDelay_IWORK_p . Head , _rtP -> P_40 , 0 , ( boolean_T ) (
+_rtDW -> TransportDelay_IWORK_p . Head , _rtP -> P_20 , 0 , ( boolean_T ) (
 ssIsMinorTimeStep ( S ) && ( ( * uBuffer + _rtDW -> TransportDelay_IWORK_p .
 CircularBufSize ) [ _rtDW -> TransportDelay_IWORK_p . Head ] == ssGetT ( S )
-) ) ) ; } _rtB -> B_10_83_0 = _rtP -> P_41 * B_10_82_0 ; { real_T * * uBuffer
-= ( real_T * * ) & _rtDW -> TransportDelay1_PWORK_k . TUbufferPtrs [ 0 ] ;
-real_T simTime = ssGetT ( S ) ; real_T tMinusDelay = simTime - _rtP -> P_42 ;
-B_10_84_0 = Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate (
-tMinusDelay , 0.0 , * uBuffer , _rtDW -> TransportDelay1_IWORK_a .
-CircularBufSize , & _rtDW -> TransportDelay1_IWORK_a . Last , _rtDW ->
-TransportDelay1_IWORK_a . Tail , _rtDW -> TransportDelay1_IWORK_a . Head ,
-_rtP -> P_43 , 0 , ( boolean_T ) ( ssIsMinorTimeStep ( S ) && ( ( * uBuffer +
-_rtDW -> TransportDelay1_IWORK_a . CircularBufSize ) [ _rtDW ->
-TransportDelay1_IWORK_a . Head ] == ssGetT ( S ) ) ) ) ; } _rtB -> B_10_85_0
-= _rtP -> P_44 * B_10_84_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit
-!= 0 ) { _rtB -> B_10_86_0 [ 0 ] = _rtDW -> Delay1_DSTATE_b [ 0 ] ; _rtB ->
-B_10_87_0 [ 0 ] = _rtDW -> Delay_DSTATE_d [ 0 ] ; _rtB -> B_10_86_0 [ 1 ] =
-_rtDW -> Delay1_DSTATE_b [ 1 ] ; _rtB -> B_10_87_0 [ 1 ] = _rtDW ->
-Delay_DSTATE_d [ 1 ] ; } ssCallAccelRunBlock ( S , 10 , 88 ,
-SS_CALL_MDL_OUTPUTS ) ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0
-) { { if ( _rtDW -> TAQSigLogging_InsertedFor_SFunction_at_outport_0_PWORK .
-AQHandles && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
+) ) ) ; } _rtB -> B_8_46_0 = _rtP -> P_21 * _rtB -> B_8_45_0 ; { real_T * *
+uBuffer = ( real_T * * ) & _rtDW -> TransportDelay1_PWORK_k . TUbufferPtrs [
+0 ] ; real_T simTime = ssGetT ( S ) ; real_T tMinusDelay = simTime - _rtP ->
+P_22 ; _rtB -> B_8_47_0 =
+Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate ( tMinusDelay ,
+0.0 , * uBuffer , _rtDW -> TransportDelay1_IWORK_a . CircularBufSize , &
+_rtDW -> TransportDelay1_IWORK_a . Last , _rtDW -> TransportDelay1_IWORK_a .
+Tail , _rtDW -> TransportDelay1_IWORK_a . Head , _rtP -> P_23 , 0 , (
+boolean_T ) ( ssIsMinorTimeStep ( S ) && ( ( * uBuffer + _rtDW ->
+TransportDelay1_IWORK_a . CircularBufSize ) [ _rtDW ->
+TransportDelay1_IWORK_a . Head ] == ssGetT ( S ) ) ) ) ; } _rtB -> B_8_48_0 =
+_rtP -> P_24 * _rtB -> B_8_47_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if (
+isHit != 0 ) { _rtB -> B_8_49_0 [ 0 ] = _rtDW -> Delay1_DSTATE_b [ 0 ] ; _rtB
+-> B_8_50_0 [ 0 ] = _rtDW -> Delay_DSTATE_d [ 0 ] ; _rtB -> B_8_49_0 [ 1 ] =
+_rtDW -> Delay1_DSTATE_b [ 1 ] ; _rtB -> B_8_50_0 [ 1 ] = _rtDW ->
+Delay_DSTATE_d [ 1 ] ; } ssCallAccelRunBlock ( S , 8 , 51 ,
+SS_CALL_MDL_OUTPUTS ) ; vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T
+* ) "Copy_of_linkleg_trajectory_contact/Controller/Initialize_Flag1" , 0 ) ;
+_rtB -> B_8_52_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S , 1 , 0 )
+; if ( isHit != 0 ) { if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
+Compare_Mode_a = ( _rtB -> B_8_52_0 == _rtB -> B_8_7_0 ) ; } _rtB -> B_8_53_0
+= _rtDW -> Compare_Mode_a ; } { real_T * * uBuffer = ( real_T * * ) & _rtDW
+-> TransportDelay1_PWORK_j . TUbufferPtrs [ 0 ] ; real_T simTime = ssGetT ( S
+) ; real_T tMinusDelay = simTime - _rtP -> P_27 ; _rtB -> B_8_54_0 =
+Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate ( tMinusDelay ,
+0.0 , * uBuffer , _rtDW -> TransportDelay1_IWORK_i . CircularBufSize , &
+_rtDW -> TransportDelay1_IWORK_i . Last , _rtDW -> TransportDelay1_IWORK_i .
+Tail , _rtDW -> TransportDelay1_IWORK_i . Head , _rtP -> P_28 , 1 , (
+boolean_T ) ( ssIsMinorTimeStep ( S ) && ( ( * uBuffer + _rtDW ->
+TransportDelay1_IWORK_i . CircularBufSize ) [ _rtDW ->
+TransportDelay1_IWORK_i . Head ] == ssGetT ( S ) ) ) ) ; } if ( ( _rtB ->
+B_8_53_0 != 0 ) && ( _rtB -> B_8_54_0 != 0.0 ) ) { _rtB -> B_8_56_0 [ 0 ] =
+_rtB -> B_8_51_0 [ 0 ] ; _rtB -> B_8_56_0 [ 1 ] = _rtB -> B_8_51_0 [ 1 ] ; }
+else { _rtB -> B_8_56_0 [ 0 ] = _rtB -> B_8_8_0 [ 0 ] ; _rtB -> B_8_56_0 [ 1
+] = _rtB -> B_8_8_0 [ 1 ] ; } ssCallAccelRunBlock ( S , 1 , 0 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 3 , 0 , SS_CALL_MDL_OUTPUTS
+) ; vm_ReadLocalDSMNoIdx ( S , _rtDW -> dsmIdx , ( char_T * )
+ "Copy_of_linkleg_trajectory_contact/Controller/initialize_switch/Initialize_Flag1"
+, 0 ) ; _rtB -> B_8_59_0 = _rtDW -> Initialize ; isHit = ssIsSampleHit ( S ,
+1 , 0 ) ; if ( isHit != 0 ) { if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW ->
+Compare_Mode_l = ( _rtB -> B_8_59_0 == _rtB -> B_8_2_0_c ) ; } rtb_B_8_60_0 =
+_rtDW -> Compare_Mode_l ; if ( _rtDW -> Compare_Mode_l ) { _rtB -> B_8_61_0 =
+_rtB -> B_2_0_1 [ 0 ] ; } else { _rtB -> B_8_61_0 = _rtB -> B_8_6_0 ; } } if
+( _rtB -> B_8_21_0_p != 0 ) { _rtB -> B_8_62_0 = _rtB -> B_3_0_1 [ 0 ] ; }
+else { _rtB -> B_8_62_0 = _rtB -> B_8_61_0 ; } isHit = ssIsSampleHit ( S , 1
+, 0 ) ; if ( isHit != 0 ) { { if ( _rtDW ->
+TAQSigLogging_InsertedFor_Switch4_at_outport_0_PWORK . AQHandles &&
+ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
+TAQSigLogging_InsertedFor_Switch4_at_outport_0_PWORK . AQHandles ,
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_62_0 + 0 ) ; } } if (
+rtb_B_8_60_0 ) { _rtB -> B_8_64_0 = _rtB -> B_2_0_1 [ 1 ] ; } else { _rtB ->
+B_8_64_0 = _rtB -> B_8_5_0 ; } } if ( _rtB -> B_8_18_0_b != 0 ) { _rtB ->
+B_8_65_0 = _rtB -> B_3_0_1 [ 1 ] ; } else { _rtB -> B_8_65_0 = _rtB ->
+B_8_64_0 ; } isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { { if (
+_rtDW -> TAQSigLogging_InsertedFor_Switch5_at_outport_0_PWORK . AQHandles &&
+ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
+TAQSigLogging_InsertedFor_Switch5_at_outport_0_PWORK . AQHandles ,
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_65_0 + 0 ) ; } } } _rtB ->
+B_8_67_0 = _rtB -> B_8_62_0 - _rtB -> B_8_2_0 [ 2 ] ; _rtB -> B_8_68_0 = _rtP
+-> P_29 * _rtB -> B_8_67_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit
+!= 0 ) { _rtB -> B_8_69_0 = _rtDW -> Filter_DSTATE ; } _rtB -> B_8_70_0 =
+_rtB -> B_8_68_0 - _rtB -> B_8_69_0 ; _rtB -> B_8_71_0 = _rtP -> P_32 * _rtB
+-> B_8_67_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtB
+-> B_8_72_0 = _rtDW -> Integrator_DSTATE ; } _rtB -> B_8_73_0 = _rtP -> P_35
+* _rtB -> B_8_70_0 ; _rtB -> B_8_74_0 = _rtP -> P_36 * _rtB -> B_8_67_0 ;
+_rtB -> B_8_75_0 = ( _rtB -> B_8_74_0 + _rtB -> B_8_72_0 ) + _rtB -> B_8_73_0
+; if ( ssIsModeUpdateTimeStep ( S ) ) { _rtDW -> Saturation_MODE = _rtB ->
+B_8_75_0 >= _rtP -> P_37 ? 1 : _rtB -> B_8_75_0 > _rtP -> P_38 ? 0 : - 1 ; }
+_rtB -> B_8_76_0 = _rtDW -> Saturation_MODE == 1 ? _rtP -> P_37 : _rtDW ->
+Saturation_MODE == - 1 ? _rtP -> P_38 : _rtB -> B_8_75_0 ; _rtB -> B_8_77_0 =
+_rtB -> B_8_65_0 - _rtB -> B_8_2_0 [ 0 ] ; _rtB -> B_8_78_0 = _rtP -> P_39 *
+_rtB -> B_8_77_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) {
+_rtB -> B_8_79_0 = _rtDW -> Filter_DSTATE_g ; } _rtB -> B_8_80_0 = _rtB ->
+B_8_78_0 - _rtB -> B_8_79_0 ; _rtB -> B_8_81_0 = _rtP -> P_42 * _rtB ->
+B_8_77_0 ; isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtB ->
+B_8_82_0 = _rtDW -> Integrator_DSTATE_b ; } _rtB -> B_8_83_0 = _rtP -> P_45 *
+_rtB -> B_8_80_0 ; _rtB -> B_8_84_0 = _rtP -> P_46 * _rtB -> B_8_77_0 ; _rtB
+-> B_8_85_0 = ( _rtB -> B_8_84_0 + _rtB -> B_8_82_0 ) + _rtB -> B_8_83_0 ; if
+( ssIsModeUpdateTimeStep ( S ) ) { _rtDW -> Saturation_MODE_k = _rtB ->
+B_8_85_0 >= _rtP -> P_47 ? 1 : _rtB -> B_8_85_0 > _rtP -> P_48 ? 0 : - 1 ; }
+_rtB -> B_8_86_0 = _rtDW -> Saturation_MODE_k == 1 ? _rtP -> P_47 : _rtDW ->
+Saturation_MODE_k == - 1 ? _rtP -> P_48 : _rtB -> B_8_85_0 ; isHit =
+ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { { if ( _rtDW ->
+TAQSigLogging_InsertedFor_SFunction_at_outport_0_PWORK . AQHandles &&
+ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_SFunction_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_88_0 [ 0 ] + 0 ) ; } } {
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_51_0 [ 0 ] + 0 ) ; } } {
 if ( _rtDW -> TAQSigLogging_InsertedFor_Motortotheta_beta_at_outport_0_PWORK
 . AQHandles && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_Motortotheta_beta_at_outport_0_PWORK . AQHandles ,
@@ -260,84 +274,84 @@ ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_4_0_1 [ 0 ] + 0 ) ; } } { if
 ( _rtDW -> TAQSigLogging_InsertedFor_TransportDelay1_at_outport_0_PWORK .
 AQHandles && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_TransportDelay1_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_78_0 + 0 ) ; } } { if (
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_41_0 + 0 ) ; } } { if (
 _rtDW -> TAQSigLogging_InsertedFor_TransportDelay_at_outport_0_PWORK .
 AQHandles && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_TransportDelay_at_outport_0_PWORK . AQHandles ,
-ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_77_0 + 0 ) ; } } } {
+ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_40_0 + 0 ) ; } } } {
 real_T * * uBuffer = ( real_T * * ) & _rtDW -> TransportDelay_PWORK_l .
 TUbufferPtrs [ 0 ] ; real_T simTime = ssGetT ( S ) ; real_T tMinusDelay ; {
-int_T i1 ; real_T * y0 = & _rtB -> B_10_101_0 [ 0 ] ; int_T * iw_Tail = &
+int_T i1 ; real_T * y0 = & _rtB -> B_8_103_0 [ 0 ] ; int_T * iw_Tail = &
 _rtDW -> TransportDelay_IWORK_m . Tail [ 0 ] ; int_T * iw_Head = & _rtDW ->
 TransportDelay_IWORK_m . Head [ 0 ] ; int_T * iw_Last = & _rtDW ->
 TransportDelay_IWORK_m . Last [ 0 ] ; int_T * iw_CircularBufSize = & _rtDW ->
 TransportDelay_IWORK_m . CircularBufSize [ 0 ] ; for ( i1 = 0 ; i1 < 2 ; i1
-++ ) { tMinusDelay = ( ( _rtP -> P_47 > 0.0 ) ? _rtP -> P_47 : 0.0 ) ;
+++ ) { tMinusDelay = ( ( _rtP -> P_49 > 0.0 ) ? _rtP -> P_49 : 0.0 ) ;
 tMinusDelay = simTime - tMinusDelay ; y0 [ i1 ] =
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayInterpolate ( tMinusDelay ,
 0.0 , * uBuffer , iw_CircularBufSize [ i1 ] , & iw_Last [ i1 ] , iw_Tail [ i1
-] , iw_Head [ i1 ] , _rtP -> P_48 , 0 , ( boolean_T ) ( ssIsMinorTimeStep ( S
+] , iw_Head [ i1 ] , _rtP -> P_50 , 0 , ( boolean_T ) ( ssIsMinorTimeStep ( S
 ) && ( ( * uBuffer + iw_CircularBufSize [ i1 ] ) [ iw_Head [ i1 ] ] == ssGetT
 ( S ) ) ) ) ; uBuffer ++ ; } } } isHit = ssIsSampleHit ( S , 2 , 0 ) ; if (
-isHit != 0 ) { _rtB -> B_10_102_0 [ 0 ] = _rtB -> B_10_83_0 ; _rtB ->
-B_10_102_0 [ 1 ] = _rtB -> B_10_85_0 ; } _rtB -> B_10_110_0 [ 0 ] = _rtB ->
-B_10_2_0 [ 1 ] ; _rtB -> B_10_110_0 [ 1 ] = 0.0 ; _rtB -> B_10_110_0 [ 2 ] =
-0.0 ; _rtB -> B_10_110_0 [ 3 ] = 0.0 ; ssCallAccelRunBlock ( S , 10 , 111 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 112 ,
-SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_10_113_0 = _rtB -> B_10_57_0 + _rtB ->
-B_10_112_0 ; _rtB -> B_10_126_0 [ 0 ] = _rtB -> B_10_2_0 [ 3 ] ; _rtB ->
-B_10_126_0 [ 1 ] = 0.0 ; _rtB -> B_10_126_0 [ 2 ] = 0.0 ; _rtB -> B_10_126_0
-[ 3 ] = 0.0 ; ssCallAccelRunBlock ( S , 10 , 127 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 10 , 128 , SS_CALL_MDL_OUTPUTS ) ; isHit =
+isHit != 0 ) { _rtB -> B_8_104_0 [ 0 ] = _rtB -> B_8_46_0 ; _rtB -> B_8_104_0
+[ 1 ] = _rtB -> B_8_48_0 ; } _rtB -> B_8_112_0 [ 0 ] = _rtB -> B_8_2_0 [ 1 ]
+; _rtB -> B_8_112_0 [ 1 ] = 0.0 ; _rtB -> B_8_112_0 [ 2 ] = 0.0 ; _rtB ->
+B_8_112_0 [ 3 ] = 0.0 ; ssCallAccelRunBlock ( S , 8 , 113 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 8 , 114 ,
+SS_CALL_MDL_OUTPUTS ) ; _rtB -> B_8_115_0 = _rtB -> B_8_86_0 + _rtB ->
+B_8_114_0 ; _rtB -> B_8_128_0 [ 0 ] = _rtB -> B_8_2_0 [ 3 ] ; _rtB ->
+B_8_128_0 [ 1 ] = 0.0 ; _rtB -> B_8_128_0 [ 2 ] = 0.0 ; _rtB -> B_8_128_0 [ 3
+] = 0.0 ; ssCallAccelRunBlock ( S , 8 , 129 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 8 , 130 , SS_CALL_MDL_OUTPUTS ) ; isHit =
 ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0 ) { { if ( _rtDW ->
 TAQSigLogging_InsertedFor_PSSimulinkConverter1_at_outport_0_PWORK . AQHandles
 && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_PSSimulinkConverter1_at_outport_0_PWORK . AQHandles
-, ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_128_0 + 0 ) ; } } { if
-( _rtDW -> TAQSigLogging_InsertedFor_t_at_outport_0_PWORK . AQHandles &&
+, ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_130_0 + 0 ) ; } } { if (
+_rtDW -> TAQSigLogging_InsertedFor_t_at_outport_0_PWORK . AQHandles &&
 ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_t_at_outport_0_PWORK . AQHandles , ssGetTaskTime (
-S , 1 ) , ( char * ) & _rtB -> B_10_47_0 + 0 ) ; } } } _rtB -> B_10_131_0 =
-_rtB -> B_10_47_0 + _rtB -> B_10_128_0 ; _rtB -> B_10_133_0 [ 0 ] = _rtB ->
-B_10_113_0 ; _rtB -> B_10_133_0 [ 1 ] = 0.0 ; _rtB -> B_10_133_0 [ 2 ] = 0.0
-; _rtB -> B_10_133_0 [ 3 ] = 0.0 ; _rtB -> B_10_134_0 [ 0 ] = _rtB ->
-B_10_131_0 ; _rtB -> B_10_134_0 [ 1 ] = 0.0 ; _rtB -> B_10_134_0 [ 2 ] = 0.0
-; _rtB -> B_10_134_0 [ 3 ] = 0.0 ; ssCallAccelRunBlock ( S , 10 , 135 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 136 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 148 ,
+S , 1 ) , ( char * ) & _rtB -> B_8_76_0 + 0 ) ; } } } _rtB -> B_8_133_0 =
+_rtB -> B_8_76_0 + _rtB -> B_8_130_0 ; _rtB -> B_8_135_0 [ 0 ] = _rtB ->
+B_8_115_0 ; _rtB -> B_8_135_0 [ 1 ] = 0.0 ; _rtB -> B_8_135_0 [ 2 ] = 0.0 ;
+_rtB -> B_8_135_0 [ 3 ] = 0.0 ; _rtB -> B_8_136_0 [ 0 ] = _rtB -> B_8_133_0 ;
+_rtB -> B_8_136_0 [ 1 ] = 0.0 ; _rtB -> B_8_136_0 [ 2 ] = 0.0 ; _rtB ->
+B_8_136_0 [ 3 ] = 0.0 ; ssCallAccelRunBlock ( S , 8 , 137 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 8 , 138 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 8 , 150 ,
 SS_CALL_MDL_OUTPUTS ) ; isHit = ssIsSampleHit ( S , 1 , 0 ) ; if ( isHit != 0
 ) { { if ( _rtDW ->
 TAQSigLogging_InsertedFor_PSSimulinkConverter2_at_outport_0_PWORK . AQHandles
 && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_PSSimulinkConverter2_at_outport_0_PWORK . AQHandles
-, ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_2_0 [ 4 ] + 0 ) ; } } {
+, ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_2_0 [ 4 ] + 0 ) ; } } {
 if ( _rtDW ->
 TAQSigLogging_InsertedFor_PSSimulinkConverter_at_outport_0_PWORK . AQHandles
 && ssGetLogOutput ( S ) ) { sdiWriteSignal ( _rtDW ->
 TAQSigLogging_InsertedFor_PSSimulinkConverter_at_outport_0_PWORK . AQHandles
-, ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_10_2_0 [ 5 ] + 0 ) ; } } }
-ssCallAccelRunBlock ( S , 10 , 154 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 10 , 155 , SS_CALL_MDL_OUTPUTS ) ;
-ssCallAccelRunBlock ( S , 10 , 156 , SS_CALL_MDL_OUTPUTS ) ; UNUSED_PARAMETER
+, ssGetTaskTime ( S , 1 ) , ( char * ) & _rtB -> B_8_2_0 [ 5 ] + 0 ) ; } } }
+ssCallAccelRunBlock ( S , 8 , 156 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 8 , 157 , SS_CALL_MDL_OUTPUTS ) ;
+ssCallAccelRunBlock ( S , 8 , 158 , SS_CALL_MDL_OUTPUTS ) ; UNUSED_PARAMETER
 ( tid ) ; } static void mdlOutputsTID3 ( SimStruct * S , int_T tid ) {
 B_Copy_of_linkleg_trajectory_contact_T * _rtB ;
 P_Copy_of_linkleg_trajectory_contact_T * _rtP ; _rtP = ( (
 P_Copy_of_linkleg_trajectory_contact_T * ) ssGetModelRtp ( S ) ) ; _rtB = ( (
 B_Copy_of_linkleg_trajectory_contact_T * ) _ssGetModelBlockIO ( S ) ) ; _rtB
--> B_10_0_0_m = _rtP -> P_50 ; _rtB -> B_10_2_0_c = _rtP -> P_51 ; _rtB ->
-B_10_3_0 = _rtP -> P_52 ; _rtB -> B_10_4_0 = _rtP -> P_53 ; _rtB -> B_10_5_0
-= _rtP -> P_54 ; _rtB -> B_10_6_0 = _rtP -> P_55 ; _rtB -> B_10_7_0 = _rtP ->
-P_56 ; _rtB -> B_10_10_0 = _rtP -> P_58 ; _rtB -> B_10_12_0 = _rtP -> P_60 ;
-_rtB -> B_10_13_0 = _rtP -> P_61 ; _rtB -> B_10_8_0 [ 0 ] = _rtP -> P_57 [ 0
-] ; _rtB -> B_10_11_0 [ 0 ] = _rtP -> P_59 [ 0 ] ; _rtB -> B_10_14_0 [ 0 ] =
-_rtP -> P_62 [ 0 ] ; _rtB -> B_10_15_0 [ 0 ] = _rtP -> P_63 [ 0 ] ; _rtB ->
-B_10_8_0 [ 1 ] = _rtP -> P_57 [ 1 ] ; _rtB -> B_10_11_0 [ 1 ] = _rtP -> P_59
-[ 1 ] ; _rtB -> B_10_14_0 [ 1 ] = _rtP -> P_62 [ 1 ] ; _rtB -> B_10_15_0 [ 1
-] = _rtP -> P_63 [ 1 ] ; _rtB -> B_10_16_0 = _rtP -> P_64 ; _rtB ->
-B_10_17_0_k = _rtP -> P_65 ; _rtB -> B_10_18_0 = _rtP -> P_66 ; _rtB ->
-B_10_19_0 = _rtP -> P_67 ; _rtB -> B_10_20_0_c = _rtP -> P_68 ; _rtB ->
-B_10_21_0 = _rtP -> P_69 ; ssCallAccelRunBlock ( S , 10 , 328 ,
-SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 10 , 329 ,
+-> B_8_0_0_m = _rtP -> P_52 ; _rtB -> B_8_2_0_c = _rtP -> P_53 ; _rtB ->
+B_8_3_0 = _rtP -> P_54 ; _rtB -> B_8_4_0 = _rtP -> P_55 ; _rtB -> B_8_5_0 =
+_rtP -> P_56 ; _rtB -> B_8_6_0 = _rtP -> P_57 ; _rtB -> B_8_7_0 = _rtP ->
+P_58 ; _rtB -> B_8_9_0 = _rtP -> P_60 ; _rtB -> B_8_10_0 = _rtP -> P_61 ;
+_rtB -> B_8_12_0 = _rtP -> P_63 ; _rtB -> B_8_13_0 = _rtP -> P_64 ; _rtB ->
+B_8_8_0 [ 0 ] = _rtP -> P_59 [ 0 ] ; _rtB -> B_8_11_0 [ 0 ] = _rtP -> P_62 [
+0 ] ; _rtB -> B_8_15_0 [ 0 ] = _rtP -> P_65 [ 0 ] ; _rtB -> B_8_16_0 [ 0 ] =
+_rtP -> P_66 [ 0 ] ; _rtB -> B_8_8_0 [ 1 ] = _rtP -> P_59 [ 1 ] ; _rtB ->
+B_8_11_0 [ 1 ] = _rtP -> P_62 [ 1 ] ; _rtB -> B_8_15_0 [ 1 ] = _rtP -> P_65 [
+1 ] ; _rtB -> B_8_16_0 [ 1 ] = _rtP -> P_66 [ 1 ] ; _rtB -> B_8_17_0_k = _rtP
+-> P_67 ; _rtB -> B_8_18_0 = _rtP -> P_68 ; _rtB -> B_8_19_0 = _rtP -> P_69 ;
+_rtB -> B_8_20_0_c = _rtP -> P_70 ; _rtB -> B_8_21_0 = _rtP -> P_71 ; _rtB ->
+B_8_22_0 = _rtP -> P_72 ; ssCallAccelRunBlock ( S , 8 , 331 ,
+SS_CALL_MDL_OUTPUTS ) ; ssCallAccelRunBlock ( S , 8 , 332 ,
 SS_CALL_MDL_OUTPUTS ) ; UNUSED_PARAMETER ( tid ) ; }
 #define MDL_UPDATE
 static void mdlUpdate ( SimStruct * S , int_T tid ) {
@@ -347,40 +361,36 @@ P_Copy_of_linkleg_trajectory_contact_T * _rtP ; int32_T isHit ; _rtDW = ( (
 DW_Copy_of_linkleg_trajectory_contact_T * ) ssGetRootDWork ( S ) ) ; _rtP = (
 ( P_Copy_of_linkleg_trajectory_contact_T * ) ssGetModelRtp ( S ) ) ; _rtB = (
 ( B_Copy_of_linkleg_trajectory_contact_T * ) _ssGetModelBlockIO ( S ) ) ;
-ssCallAccelRunBlock ( S , 10 , 1 , SS_CALL_MDL_UPDATE ) ; isHit =
-ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW -> Filter_DSTATE +=
-_rtP -> P_1 * _rtB -> B_10_44_0 ; _rtDW -> Integrator_DSTATE += _rtP -> P_4 *
-_rtB -> B_10_42_0 ; _rtDW -> Filter_DSTATE_g += _rtP -> P_11 * _rtB ->
-B_10_54_0 ; _rtDW -> Integrator_DSTATE_b += _rtP -> P_14 * _rtB -> B_10_52_0
-; _rtDW -> Delay3_DSTATE = _rtB -> B_10_66_0 ; _rtDW -> Delay2_DSTATE = _rtB
--> B_10_10_0 ; _rtDW -> Delay_DSTATE [ 0U ] = _rtDW -> Delay_DSTATE [ 1U ] ;
-_rtDW -> Delay_DSTATE [ 1 ] = _rtB -> B_10_66_0 ; _rtDW -> Delay1_DSTATE [ 0U
-] = _rtDW -> Delay1_DSTATE [ 1U ] ; _rtDW -> Delay1_DSTATE [ 1 ] = _rtB ->
-B_10_10_0 ; _rtDW -> Delay_DSTATE_b [ 0 ] = _rtB -> B_10_101_0 [ 0 ] ; _rtDW
--> Delay_DSTATE_b [ 1 ] = _rtB -> B_10_101_0 [ 1 ] ; _rtDW -> Delay1_DSTATE_a
-[ 0U ] = _rtDW -> Delay1_DSTATE_a [ 2U ] ; _rtDW -> Delay1_DSTATE_a [ 1U ] =
+ssCallAccelRunBlock ( S , 8 , 1 , SS_CALL_MDL_UPDATE ) ; isHit =
+ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW -> Delay3_DSTATE =
+_rtB -> B_8_29_0 ; _rtDW -> Delay2_DSTATE = _rtB -> B_8_10_0 ; _rtDW ->
+Delay_DSTATE [ 0U ] = _rtDW -> Delay_DSTATE [ 1U ] ; _rtDW -> Delay_DSTATE [
+1 ] = _rtB -> B_8_29_0 ; _rtDW -> Delay1_DSTATE [ 0U ] = _rtDW ->
+Delay1_DSTATE [ 1U ] ; _rtDW -> Delay1_DSTATE [ 1 ] = _rtB -> B_8_10_0 ;
+_rtDW -> Delay_DSTATE_b [ 0 ] = _rtB -> B_8_103_0 [ 0 ] ; _rtDW ->
+Delay_DSTATE_b [ 1 ] = _rtB -> B_8_103_0 [ 1 ] ; _rtDW -> Delay1_DSTATE_a [
+0U ] = _rtDW -> Delay1_DSTATE_a [ 2U ] ; _rtDW -> Delay1_DSTATE_a [ 1U ] =
 _rtDW -> Delay1_DSTATE_a [ 3U ] ; _rtDW -> Delay1_DSTATE_a [ 2 ] = _rtB ->
-B_10_101_0 [ 0 ] ; _rtDW -> Delay1_DSTATE_a [ 3 ] = _rtB -> B_10_101_0 [ 1 ]
-; _rtDW -> Delay3_DSTATE_k = _rtB -> B_10_12_0 ; _rtDW -> Delay2_DSTATE_o =
-_rtB -> B_10_13_0 ; _rtDW -> Delay_DSTATE_f [ 0U ] = _rtDW -> Delay_DSTATE_f
-[ 1U ] ; _rtDW -> Delay_DSTATE_f [ 1 ] = _rtB -> B_10_12_0 ; _rtDW ->
-Delay1_DSTATE_p [ 0U ] = _rtDW -> Delay1_DSTATE_p [ 1U ] ; _rtDW ->
-Delay1_DSTATE_p [ 1 ] = _rtB -> B_10_13_0 ; } { real_T * * uBuffer = ( real_T
-* * ) & _rtDW -> TransportDelay_PWORK . TUbufferPtrs [ 0 ] ; real_T simTime =
-ssGetT ( S ) ; _rtDW -> TransportDelay_IWORK . Head = ( ( _rtDW ->
-TransportDelay_IWORK . Head < ( _rtDW -> TransportDelay_IWORK .
-CircularBufSize - 1 ) ) ? ( _rtDW -> TransportDelay_IWORK . Head + 1 ) : 0 )
-; if ( _rtDW -> TransportDelay_IWORK . Head == _rtDW -> TransportDelay_IWORK
-. Tail ) { if ( !
+B_8_103_0 [ 0 ] ; _rtDW -> Delay1_DSTATE_a [ 3 ] = _rtB -> B_8_103_0 [ 1 ] ;
+_rtDW -> Delay3_DSTATE_k = _rtB -> B_8_12_0 ; _rtDW -> Delay2_DSTATE_o = _rtB
+-> B_8_13_0 ; _rtDW -> Delay_DSTATE_f [ 0U ] = _rtDW -> Delay_DSTATE_f [ 1U ]
+; _rtDW -> Delay_DSTATE_f [ 1 ] = _rtB -> B_8_12_0 ; _rtDW -> Delay1_DSTATE_p
+[ 0U ] = _rtDW -> Delay1_DSTATE_p [ 1U ] ; _rtDW -> Delay1_DSTATE_p [ 1 ] =
+_rtB -> B_8_13_0 ; } { real_T * * uBuffer = ( real_T * * ) & _rtDW ->
+TransportDelay_PWORK . TUbufferPtrs [ 0 ] ; real_T simTime = ssGetT ( S ) ;
+_rtDW -> TransportDelay_IWORK . Head = ( ( _rtDW -> TransportDelay_IWORK .
+Head < ( _rtDW -> TransportDelay_IWORK . CircularBufSize - 1 ) ) ? ( _rtDW ->
+TransportDelay_IWORK . Head + 1 ) : 0 ) ; if ( _rtDW -> TransportDelay_IWORK
+. Head == _rtDW -> TransportDelay_IWORK . Tail ) { if ( !
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf ( & _rtDW
 -> TransportDelay_IWORK . CircularBufSize , & _rtDW -> TransportDelay_IWORK .
 Tail , & _rtDW -> TransportDelay_IWORK . Head , & _rtDW ->
-TransportDelay_IWORK . Last , simTime - _rtP -> P_33 , uBuffer , ( boolean_T
+TransportDelay_IWORK . Last , simTime - _rtP -> P_13 , uBuffer , ( boolean_T
 ) 0 , false , & _rtDW -> TransportDelay_IWORK . MaxNewBufSize ) ) {
 ssSetErrorStatus ( S , "tdelay memory allocation error" ) ; return ; } } ( *
 uBuffer + _rtDW -> TransportDelay_IWORK . CircularBufSize ) [ _rtDW ->
 TransportDelay_IWORK . Head ] = simTime ; ( * uBuffer ) [ _rtDW ->
-TransportDelay_IWORK . Head ] = _rtB -> B_10_2_0 [ 2 ] ; } { real_T * *
+TransportDelay_IWORK . Head ] = _rtB -> B_8_2_0 [ 2 ] ; } { real_T * *
 uBuffer = ( real_T * * ) & _rtDW -> TransportDelay1_PWORK . TUbufferPtrs [ 0
 ] ; real_T simTime = ssGetT ( S ) ; _rtDW -> TransportDelay1_IWORK . Head = (
 ( _rtDW -> TransportDelay1_IWORK . Head < ( _rtDW -> TransportDelay1_IWORK .
@@ -390,12 +400,12 @@ TransportDelay1_IWORK . Tail ) { if ( !
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf ( & _rtDW
 -> TransportDelay1_IWORK . CircularBufSize , & _rtDW -> TransportDelay1_IWORK
 . Tail , & _rtDW -> TransportDelay1_IWORK . Head , & _rtDW ->
-TransportDelay1_IWORK . Last , simTime - _rtP -> P_35 , uBuffer , ( boolean_T
+TransportDelay1_IWORK . Last , simTime - _rtP -> P_15 , uBuffer , ( boolean_T
 ) 0 , false , & _rtDW -> TransportDelay1_IWORK . MaxNewBufSize ) ) {
 ssSetErrorStatus ( S , "tdelay memory allocation error" ) ; return ; } } ( *
 uBuffer + _rtDW -> TransportDelay1_IWORK . CircularBufSize ) [ _rtDW ->
 TransportDelay1_IWORK . Head ] = simTime ; ( * uBuffer ) [ _rtDW ->
-TransportDelay1_IWORK . Head ] = _rtB -> B_10_2_0 [ 0 ] ; } isHit =
+TransportDelay1_IWORK . Head ] = _rtB -> B_8_2_0 [ 0 ] ; } isHit =
 ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW -> Delay1_DSTATE_a4 [
 0 ] = _rtB -> B_4_0_1 [ 0 ] ; _rtDW -> Delay1_DSTATE_a4 [ 1 ] = _rtB ->
 B_4_0_1 [ 1 ] ; _rtDW -> Delay_DSTATE_a [ 0U ] = _rtDW -> Delay_DSTATE_a [ 2U
@@ -411,12 +421,12 @@ TransportDelay_IWORK_p . Tail ) { if ( !
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf ( & _rtDW
 -> TransportDelay_IWORK_p . CircularBufSize , & _rtDW ->
 TransportDelay_IWORK_p . Tail , & _rtDW -> TransportDelay_IWORK_p . Head , &
-_rtDW -> TransportDelay_IWORK_p . Last , simTime - _rtP -> P_39 , uBuffer , (
+_rtDW -> TransportDelay_IWORK_p . Last , simTime - _rtP -> P_19 , uBuffer , (
 boolean_T ) 0 , false , & _rtDW -> TransportDelay_IWORK_p . MaxNewBufSize ) )
 { ssSetErrorStatus ( S , "tdelay memory allocation error" ) ; return ; } } (
 * uBuffer + _rtDW -> TransportDelay_IWORK_p . CircularBufSize ) [ _rtDW ->
 TransportDelay_IWORK_p . Head ] = simTime ; ( * uBuffer ) [ _rtDW ->
-TransportDelay_IWORK_p . Head ] = _rtB -> B_10_135_0 [ 9 ] ; } { real_T * *
+TransportDelay_IWORK_p . Head ] = _rtB -> B_8_137_0 [ 9 ] ; } { real_T * *
 uBuffer = ( real_T * * ) & _rtDW -> TransportDelay1_PWORK_k . TUbufferPtrs [
 0 ] ; real_T simTime = ssGetT ( S ) ; _rtDW -> TransportDelay1_IWORK_a . Head
 = ( ( _rtDW -> TransportDelay1_IWORK_a . Head < ( _rtDW ->
@@ -426,35 +436,54 @@ TransportDelay1_IWORK_a . Head == _rtDW -> TransportDelay1_IWORK_a . Tail ) {
 if ( ! Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf (
 & _rtDW -> TransportDelay1_IWORK_a . CircularBufSize , & _rtDW ->
 TransportDelay1_IWORK_a . Tail , & _rtDW -> TransportDelay1_IWORK_a . Head ,
-& _rtDW -> TransportDelay1_IWORK_a . Last , simTime - _rtP -> P_42 , uBuffer
+& _rtDW -> TransportDelay1_IWORK_a . Last , simTime - _rtP -> P_22 , uBuffer
 , ( boolean_T ) 0 , false , & _rtDW -> TransportDelay1_IWORK_a .
 MaxNewBufSize ) ) { ssSetErrorStatus ( S , "tdelay memory allocation error" )
 ; return ; } } ( * uBuffer + _rtDW -> TransportDelay1_IWORK_a .
 CircularBufSize ) [ _rtDW -> TransportDelay1_IWORK_a . Head ] = simTime ; ( *
-uBuffer ) [ _rtDW -> TransportDelay1_IWORK_a . Head ] = _rtB -> B_10_135_0 [
-1 ] ; } isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW ->
-Delay1_DSTATE_b [ 0 ] = _rtB -> B_10_102_0 [ 0 ] ; _rtDW -> Delay1_DSTATE_b [
-1 ] = _rtB -> B_10_102_0 [ 1 ] ; _rtDW -> Delay_DSTATE_d [ 0U ] = _rtDW ->
+uBuffer ) [ _rtDW -> TransportDelay1_IWORK_a . Head ] = _rtB -> B_8_137_0 [ 1
+] ; } isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW ->
+Delay1_DSTATE_b [ 0 ] = _rtB -> B_8_104_0 [ 0 ] ; _rtDW -> Delay1_DSTATE_b [
+1 ] = _rtB -> B_8_104_0 [ 1 ] ; _rtDW -> Delay_DSTATE_d [ 0U ] = _rtDW ->
 Delay_DSTATE_d [ 2U ] ; _rtDW -> Delay_DSTATE_d [ 1U ] = _rtDW ->
-Delay_DSTATE_d [ 3U ] ; _rtDW -> Delay_DSTATE_d [ 2 ] = _rtB -> B_10_102_0 [
-0 ] ; _rtDW -> Delay_DSTATE_d [ 3 ] = _rtB -> B_10_102_0 [ 1 ] ; } { real_T *
-* uBuffer = ( real_T * * ) & _rtDW -> TransportDelay_PWORK_l . TUbufferPtrs [
-0 ] ; real_T simTime = ssGetT ( S ) ; _rtDW -> TransportDelay_IWORK_m . Head
-[ 0 ] = ( ( _rtDW -> TransportDelay_IWORK_m . Head [ 0 ] < ( _rtDW ->
-TransportDelay_IWORK_m . CircularBufSize [ 0 ] - 1 ) ) ? ( _rtDW ->
-TransportDelay_IWORK_m . Head [ 0 ] + 1 ) : 0 ) ; if ( _rtDW ->
-TransportDelay_IWORK_m . Head [ 0 ] == _rtDW -> TransportDelay_IWORK_m . Tail
-[ 0 ] ) { if ( !
+Delay_DSTATE_d [ 3U ] ; _rtDW -> Delay_DSTATE_d [ 2 ] = _rtB -> B_8_104_0 [ 0
+] ; _rtDW -> Delay_DSTATE_d [ 3 ] = _rtB -> B_8_104_0 [ 1 ] ; } { real_T * *
+uBuffer = ( real_T * * ) & _rtDW -> TransportDelay1_PWORK_j . TUbufferPtrs [
+0 ] ; real_T simTime = ssGetT ( S ) ; _rtDW -> TransportDelay1_IWORK_i . Head
+= ( ( _rtDW -> TransportDelay1_IWORK_i . Head < ( _rtDW ->
+TransportDelay1_IWORK_i . CircularBufSize - 1 ) ) ? ( _rtDW ->
+TransportDelay1_IWORK_i . Head + 1 ) : 0 ) ; if ( _rtDW ->
+TransportDelay1_IWORK_i . Head == _rtDW -> TransportDelay1_IWORK_i . Tail ) {
+if ( ! Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf (
+& _rtDW -> TransportDelay1_IWORK_i . CircularBufSize , & _rtDW ->
+TransportDelay1_IWORK_i . Tail , & _rtDW -> TransportDelay1_IWORK_i . Head ,
+& _rtDW -> TransportDelay1_IWORK_i . Last , simTime - _rtP -> P_27 , uBuffer
+, ( boolean_T ) 0 , false , & _rtDW -> TransportDelay1_IWORK_i .
+MaxNewBufSize ) ) { ssSetErrorStatus ( S , "tdelay memory allocation error" )
+; return ; } } ( * uBuffer + _rtDW -> TransportDelay1_IWORK_i .
+CircularBufSize ) [ _rtDW -> TransportDelay1_IWORK_i . Head ] = simTime ; ( *
+uBuffer ) [ _rtDW -> TransportDelay1_IWORK_i . Head ] = _rtB -> B_8_9_0 ; }
+isHit = ssIsSampleHit ( S , 2 , 0 ) ; if ( isHit != 0 ) { _rtDW ->
+Filter_DSTATE += _rtP -> P_30 * _rtB -> B_8_73_0 ; _rtDW -> Integrator_DSTATE
++= _rtP -> P_33 * _rtB -> B_8_71_0 ; _rtDW -> Filter_DSTATE_g += _rtP -> P_40
+* _rtB -> B_8_83_0 ; _rtDW -> Integrator_DSTATE_b += _rtP -> P_43 * _rtB ->
+B_8_81_0 ; } { real_T * * uBuffer = ( real_T * * ) & _rtDW ->
+TransportDelay_PWORK_l . TUbufferPtrs [ 0 ] ; real_T simTime = ssGetT ( S ) ;
+_rtDW -> TransportDelay_IWORK_m . Head [ 0 ] = ( ( _rtDW ->
+TransportDelay_IWORK_m . Head [ 0 ] < ( _rtDW -> TransportDelay_IWORK_m .
+CircularBufSize [ 0 ] - 1 ) ) ? ( _rtDW -> TransportDelay_IWORK_m . Head [ 0
+] + 1 ) : 0 ) ; if ( _rtDW -> TransportDelay_IWORK_m . Head [ 0 ] == _rtDW ->
+TransportDelay_IWORK_m . Tail [ 0 ] ) { if ( !
 Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf ( & _rtDW
 -> TransportDelay_IWORK_m . CircularBufSize [ 0 ] , & _rtDW ->
 TransportDelay_IWORK_m . Tail [ 0 ] , & _rtDW -> TransportDelay_IWORK_m .
 Head [ 0 ] , & _rtDW -> TransportDelay_IWORK_m . Last [ 0 ] , simTime - _rtP
--> P_47 , uBuffer , ( boolean_T ) 0 , false , & _rtDW ->
+-> P_49 , uBuffer , ( boolean_T ) 0 , false , & _rtDW ->
 TransportDelay_IWORK_m . MaxNewBufSize ) ) { ssSetErrorStatus ( S ,
 "tdelay memory allocation error" ) ; return ; } } ( * uBuffer + _rtDW ->
 TransportDelay_IWORK_m . CircularBufSize [ 0 ] ) [ _rtDW ->
 TransportDelay_IWORK_m . Head [ 0 ] ] = simTime ; ( * uBuffer ++ ) [ _rtDW ->
-TransportDelay_IWORK_m . Head [ 0 ] ] = _rtB -> B_10_88_0 [ 0 ] ; _rtDW ->
+TransportDelay_IWORK_m . Head [ 0 ] ] = _rtB -> B_8_51_0 [ 0 ] ; _rtDW ->
 TransportDelay_IWORK_m . Head [ 1 ] = ( ( _rtDW -> TransportDelay_IWORK_m .
 Head [ 1 ] < ( _rtDW -> TransportDelay_IWORK_m . CircularBufSize [ 1 ] - 1 )
 ) ? ( _rtDW -> TransportDelay_IWORK_m . Head [ 1 ] + 1 ) : 0 ) ; if ( _rtDW
@@ -464,37 +493,37 @@ Copy_of_linkleg_trajectory_contact_acc_rt_TDelayUpdateTailOrGrowBuf ( & _rtDW
 -> TransportDelay_IWORK_m . CircularBufSize [ 1 ] , & _rtDW ->
 TransportDelay_IWORK_m . Tail [ 1 ] , & _rtDW -> TransportDelay_IWORK_m .
 Head [ 1 ] , & _rtDW -> TransportDelay_IWORK_m . Last [ 1 ] , simTime - _rtP
--> P_47 , uBuffer , ( boolean_T ) 0 , false , & _rtDW ->
+-> P_49 , uBuffer , ( boolean_T ) 0 , false , & _rtDW ->
 TransportDelay_IWORK_m . MaxNewBufSize ) ) { ssSetErrorStatus ( S ,
 "tdelay memory allocation error" ) ; return ; } } ( * uBuffer + _rtDW ->
 TransportDelay_IWORK_m . CircularBufSize [ 1 ] ) [ _rtDW ->
 TransportDelay_IWORK_m . Head [ 1 ] ] = simTime ; ( * uBuffer ) [ _rtDW ->
-TransportDelay_IWORK_m . Head [ 1 ] ] = _rtB -> B_10_88_0 [ 1 ] ; }
-ssCallAccelRunBlock ( S , 10 , 111 , SS_CALL_MDL_UPDATE ) ;
-ssCallAccelRunBlock ( S , 10 , 127 , SS_CALL_MDL_UPDATE ) ; UNUSED_PARAMETER
-( tid ) ; }
+TransportDelay_IWORK_m . Head [ 1 ] ] = _rtB -> B_8_51_0 [ 1 ] ; }
+ssCallAccelRunBlock ( S , 8 , 113 , SS_CALL_MDL_UPDATE ) ;
+ssCallAccelRunBlock ( S , 8 , 129 , SS_CALL_MDL_UPDATE ) ; UNUSED_PARAMETER (
+tid ) ; }
 #define MDL_UPDATE
 static void mdlUpdateTID3 ( SimStruct * S , int_T tid ) { UNUSED_PARAMETER (
 tid ) ; }
 #define MDL_DERIVATIVES
-static void mdlDerivatives ( SimStruct * S ) { ssCallAccelRunBlock ( S , 10 ,
-1 , SS_CALL_MDL_DERIVATIVES ) ; ssCallAccelRunBlock ( S , 10 , 111 ,
-SS_CALL_MDL_DERIVATIVES ) ; ssCallAccelRunBlock ( S , 10 , 127 ,
+static void mdlDerivatives ( SimStruct * S ) { ssCallAccelRunBlock ( S , 8 ,
+1 , SS_CALL_MDL_DERIVATIVES ) ; ssCallAccelRunBlock ( S , 8 , 113 ,
+SS_CALL_MDL_DERIVATIVES ) ; ssCallAccelRunBlock ( S , 8 , 129 ,
 SS_CALL_MDL_DERIVATIVES ) ; }
 #define MDL_PROJECTION
-static void mdlProjection ( SimStruct * S ) { ssCallAccelRunBlock ( S , 10 ,
-1 , SS_CALL_MDL_PROJECTION ) ; ssCallAccelRunBlock ( S , 10 , 111 ,
-SS_CALL_MDL_PROJECTION ) ; ssCallAccelRunBlock ( S , 10 , 127 ,
+static void mdlProjection ( SimStruct * S ) { ssCallAccelRunBlock ( S , 8 , 1
+, SS_CALL_MDL_PROJECTION ) ; ssCallAccelRunBlock ( S , 8 , 113 ,
+SS_CALL_MDL_PROJECTION ) ; ssCallAccelRunBlock ( S , 8 , 129 ,
 SS_CALL_MDL_PROJECTION ) ; }
 #define MDL_FORCINGFUNCTION
 static void mdlForcingFunction ( SimStruct * S ) { ssCallAccelRunBlock ( S ,
-10 , 1 , SS_CALL_MDL_FORCINGFUNCTION ) ; ssCallAccelRunBlock ( S , 10 , 111 ,
-SS_CALL_MDL_FORCINGFUNCTION ) ; ssCallAccelRunBlock ( S , 10 , 127 ,
+8 , 1 , SS_CALL_MDL_FORCINGFUNCTION ) ; ssCallAccelRunBlock ( S , 8 , 113 ,
+SS_CALL_MDL_FORCINGFUNCTION ) ; ssCallAccelRunBlock ( S , 8 , 129 ,
 SS_CALL_MDL_FORCINGFUNCTION ) ; }
 #define MDL_MASSMATRIX
-static void mdlMassMatrix ( SimStruct * S ) { ssCallAccelRunBlock ( S , 10 ,
-1 , SS_CALL_MDL_MASSMATRIX ) ; ssCallAccelRunBlock ( S , 10 , 111 ,
-SS_CALL_MDL_MASSMATRIX ) ; ssCallAccelRunBlock ( S , 10 , 127 ,
+static void mdlMassMatrix ( SimStruct * S ) { ssCallAccelRunBlock ( S , 8 , 1
+, SS_CALL_MDL_MASSMATRIX ) ; ssCallAccelRunBlock ( S , 8 , 113 ,
+SS_CALL_MDL_MASSMATRIX ) ; ssCallAccelRunBlock ( S , 8 , 129 ,
 SS_CALL_MDL_MASSMATRIX ) ; }
 #define MDL_ZERO_CROSSINGS
 static void mdlZeroCrossings ( SimStruct * S ) {
@@ -504,18 +533,18 @@ ZCV_Copy_of_linkleg_trajectory_contact_T * _rtZCSV ; _rtZCSV = ( (
 ZCV_Copy_of_linkleg_trajectory_contact_T * ) ssGetSolverZcSignalVector ( S )
 ) ; _rtP = ( ( P_Copy_of_linkleg_trajectory_contact_T * ) ssGetModelRtp ( S )
 ) ; _rtB = ( ( B_Copy_of_linkleg_trajectory_contact_T * ) _ssGetModelBlockIO
-( S ) ) ; _rtZCSV -> Compare_RelopInput_ZC = _rtB -> B_10_17_0 - _rtB ->
-B_10_3_0 ; _rtZCSV -> Compare_RelopInput_ZC_g = _rtB -> B_10_20_0 - _rtB ->
-B_10_4_0 ; _rtZCSV -> Compare_RelopInput_ZC_e = _rtB -> B_10_25_0 - _rtB ->
-B_10_7_0 ; _rtZCSV -> Compare_RelopInput_ZC_o = _rtB -> B_10_30_0 - _rtB ->
-B_10_2_0_c ; _rtZCSV -> Saturation_UprLim_ZC = _rtB -> B_10_46_0 - _rtP ->
-P_8 ; _rtZCSV -> Saturation_LwrLim_ZC = _rtB -> B_10_46_0 - _rtP -> P_9 ;
-_rtZCSV -> Saturation_UprLim_ZC_n = _rtB -> B_10_56_0 - _rtP -> P_18 ;
-_rtZCSV -> Saturation_LwrLim_ZC_b = _rtB -> B_10_56_0 - _rtP -> P_19 ;
-_rtZCSV -> Step_StepTime_ZC = ssGetT ( S ) - _rtP -> P_20 ; } static void
-mdlInitializeSizes ( SimStruct * S ) { ssSetChecksumVal ( S , 0 , 3525691627U
-) ; ssSetChecksumVal ( S , 1 , 1471494481U ) ; ssSetChecksumVal ( S , 2 ,
-3799601008U ) ; ssSetChecksumVal ( S , 3 , 1505197036U ) ; { mxArray *
+( S ) ) ; _rtZCSV -> Compare_RelopInput_ZC = _rtB -> B_8_17_0 - _rtB ->
+B_8_3_0 ; _rtZCSV -> Compare_RelopInput_ZC_g = _rtB -> B_8_20_0 - _rtB ->
+B_8_4_0 ; _rtZCSV -> Step_StepTime_ZC = ssGetT ( S ) - _rtP -> P_0 ; _rtZCSV
+-> Compare_RelopInput_ZC_h = _rtB -> B_8_52_0 - _rtB -> B_8_7_0 ; _rtZCSV ->
+Compare_RelopInput_ZC_o = _rtB -> B_8_59_0 - _rtB -> B_8_2_0_c ; _rtZCSV ->
+Saturation_UprLim_ZC = _rtB -> B_8_75_0 - _rtP -> P_37 ; _rtZCSV ->
+Saturation_LwrLim_ZC = _rtB -> B_8_75_0 - _rtP -> P_38 ; _rtZCSV ->
+Saturation_UprLim_ZC_n = _rtB -> B_8_85_0 - _rtP -> P_47 ; _rtZCSV ->
+Saturation_LwrLim_ZC_b = _rtB -> B_8_85_0 - _rtP -> P_48 ; } static void
+mdlInitializeSizes ( SimStruct * S ) { ssSetChecksumVal ( S , 0 , 3672475350U
+) ; ssSetChecksumVal ( S , 1 , 3770321095U ) ; ssSetChecksumVal ( S , 2 ,
+1688903396U ) ; ssSetChecksumVal ( S , 3 , 1595356506U ) ; { mxArray *
 slVerStructMat = ( NULL ) ; mxArray * slStrMat = mxCreateString ( "simulink"
 ) ; char slVerChar [ 10 ] ; int status = mexCallMATLAB ( 1 , & slVerStructMat
 , 1 , & slStrMat , "ver" ) ; if ( status == 0 ) { mxArray * slVerMat =

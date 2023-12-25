@@ -105,9 +105,9 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     Eigen::Vector2d F_k_2 = jointTrq2footendForce(T_fb.row(2), TB_fb.row(2));
 
 
-    Eigen::Vector2d d_F_k = F_k - Fref.row(0).transpose();
-    Eigen::Vector2d d_F_k_1 = F_k_1 - Fref.row(1).transpose();
-    Eigen::Vector2d d_F_k_2 = F_k_2 - Fref.row(2).transpose();
+    Eigen::Vector2d d_F_k = Fref.row(0).transpose() - F_k;
+    Eigen::Vector2d d_F_k_1 = Fref.row(1).transpose() - F_k_1;
+    Eigen::Vector2d d_F_k_2 = Fref.row(2).transpose() - F_k_2;
 
     Eigen::Vector2d E_k_1 = Xref.row(1) - Xc.row(0);
     Eigen::Vector2d E_k_2 = Xref.row(2) - Xc.row(1);
@@ -122,16 +122,19 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     Eigen::Vector2d Xc_k = Xref.row(0).transpose() - E_k;
 
     if(Xref.row(0)[0]> -0.1){
-        std::cout << "Trq: " << T_fb.row(0) << std::endl;
-        std::cout << "TB: " << TB_fb.row(0) << std::endl;
-        std::cout << "F_k: " << F_k.transpose() << std::endl;
-        // std::cout << "dF_k: " << d_F_k.transpose() << std::endl;
-        // std::cout << "w1: " << w1.inverse() << std::endl;
-        std::cout << "E_k: " << E_k.transpose() << std::endl;
-        std::cout << "X_d: " << Xref.row(0) << std::endl;
-        std::cout << "Xc_k: " << Xc_k.transpose() << std::endl;
-        std::cout << "--" << std::endl;
+        // std::cout << "Trq: " << T_fb.row(0) << std::endl;
+        // std::cout << "TB: " << TB_fb.row(0) << std::endl;
+        // std::cout << "F_k: " << F_k.transpose() << std::endl;
+        // std::cout << "F_k_1: " << F_k_1.transpose() << std::endl;
+        // std::cout << "F_k_2: " << F_k_2.transpose() << std::endl;
+        // // std::cout << "dF_k: " << d_F_k.transpose() << std::endl;
+        // // std::cout << "w1: " << w1.inverse() << std::endl;
+        // std::cout << "E_k: " << E_k.transpose() << std::endl;
+        // std::cout << "X_d: " << Xref.row(0) << std::endl;
+        // std::cout << "Xc_k: " << Xc_k.transpose() << std::endl;
+        // std::cout << "--" << std::endl;
     }
+    // Eigen::Vector2d X_d = Xref.row(0);
     return Xc_k;
 }
 

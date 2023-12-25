@@ -83,11 +83,14 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     // std::cout << "Xref: "<< X_des << "\n";
 
-    // std::cout<< "Xc_k: "<< Xc_k.transpose() << std::endl;
-    // std::cout << "--" << std::endl;
+    std::cout<< "Xc_k: "<< Xc_k[0] << Xc_k[1] << std::endl;
+    std::cout<< "uXc_k: "<< *uPtrs[0] << *uPtrs[1] << std::endl;
+    std::cout << "--" << std::endl;
 
-    *output = Xc_k[0];   // Xc_x(k)
-    *output++ = Xc_k[1]; // Xc_y(k)
+    output[0] = Xc_k[0];
+    output[1] = Xc_k[1];
+    // *output = 0.2;   // Xc_x(k)
+    // *output++ = 0.3; // Xc_y(k)
 }
 
 static void mdlTerminate(SimStruct *S) {}

@@ -41,7 +41,7 @@
 #  BUILD           - Invoke make from the build procedure (yes/no)?
 #  SYS_TARGET_FILE - Name of system target file.
 
-MAKECMD         = /home/matlab/bin/glnxa64/gmake
+MAKECMD         = /usr/local/MATLAB/R2022b/bin/glnxa64/gmake
 HOST            = UNIX
 BUILD           = yes
 SYS_TARGET_FILE = any
@@ -81,9 +81,9 @@ MODEL                   = Copy_of_linkleg_trajectory_contact
 MODULES                 = Copy_of_linkleg_trajectory_contact_acc.c Copy_of_linkleg_trajectory_contact_acc_data.c rtGetInf.c rtGetNaN.c rt_nonfinite.c c_mexapi_version.c
 PRODUCT                 = $(RELATIVE_PATH_TO_ANCHOR)/Copy_of_linkleg_trajectory_contact_acc.mexa64
 MAKEFILE                = Copy_of_linkleg_trajectory_contact.mk
-MATLAB_ROOT             = /home/matlab
-ALT_MATLAB_ROOT         = /home/matlab
-START_DIR               = /home/brl-pc3-ubuntu/Corgi_force_control
+MATLAB_ROOT             = /usr/local/MATLAB/R2022b
+ALT_MATLAB_ROOT         = /usr/local/MATLAB/R2022b
+START_DIR               = /home/guanlunlu/Corgi_force_control
 S_FUNCTIONS_LIB         = 
 NUMST                   = 3
 NCSTATES                = 46
@@ -110,7 +110,7 @@ INTERLEAVED_COMPLEX_FLAGS = -R2018a
 DEFINES_CUSTOM          = 
 DEFINES_OTHER           = -DHAVESTDIO -DMDL_REF_SIM_TGT=1 -DMATLAB_MEX_FILE -DMATLAB_DEFAULT_RELEASE=R2018a
 COMPILE_FLAGS_OTHER     = -msse2 -Wno-implicit-function-declaration
-SYSTEM_LIBS             = -L"/home/matlab/bin/glnxa64" -lmwipp -lut -lmwmathutil -lmwsl_simtarget_instrumentation -lmwsl_simtarget_core -lmwsl_fileio -lmwsigstream -lmwslexec_simlog -lmwsl_AsyncioQueue -lmwsf_runtime -lmwsimulink -lmwslexec_simbridge -lmwstringutil -lemlrt -lmwslio_core -lmwslio_clients -lmwsl_services -lmx -lmex
+SYSTEM_LIBS             = -L"/usr/local/MATLAB/R2022b/bin/glnxa64" -lmwipp -lut -lmwmathutil -lmwsl_simtarget_instrumentation -lmwsl_simtarget_core -lmwsl_fileio -lmwsigstream -lmwslexec_simlog -lmwsl_AsyncioQueue -lmwsf_runtime -lmwsimulink -lmwslexec_simbridge -lmwstringutil -lemlrt -lmwslio_core -lmwslio_clients -lmwsl_services -lmx -lmex
 MODEL_HAS_DYNAMICALLY_LOADED_SFCNS = 0
 
 # To enable debugging:

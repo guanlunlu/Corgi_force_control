@@ -27,7 +27,7 @@ double g;
 
 void kinematics_setup()
 {
-    T_ = 0.001;
+    T_ = 0.0025;
     /* Physics prop. (SI units)*/
     leg_m = 0.654;
     g = 9.80665;
@@ -146,6 +146,22 @@ std::vector<Eigen::Vector2d> joint2footend_transform(const Eigen::Vector2d &q, c
     return footend_state;
 }
 
+Eigen::Matrix2d n_jacG(const Eigen::Vector2d &tb){
+    double d = 0.001;
+    Eigen::Vector2d tb_tp(tb[0]+d, tb[1]);
+    Eigen::Vector2d tb_tn(tb[0]-d, tb[1]);
+    Eigen::Vector2d tb_bp(tb[0], tb[1]+d);
+    Eigen::Vector2d tb_bn(tb[0], tb[1]-d);
+
+    Eigen::Vector2d dX_dt = (fk(tb_tp) - fk(tb_tn)) / (2*d);
+    Eigen::Vector2d dX_db = (fk(tb_bp) - fk(tb_bn)) / (2*d);
+
+    Eigen::Matrix2d jG{{dX_dt[0], dX_db[0]},
+                       {dX_dt[1], dX_db[1]}};
+    // Eigen::Vector2d tb_p = fk()
+    return jG;
+}
+
 Eigen::Vector2d jointTrq2footendForce(const Eigen::Vector2d &joint_tau, const Eigen::Vector2d &tb)
 {
     Eigen::Matrix2d J_phi{{0.5, -0.5},
@@ -156,6 +172,8 @@ Eigen::Vector2d jointTrq2footendForce(const Eigen::Vector2d &joint_tau, const Ei
 
     return J_1_T * joint_tau;
 }
+
+
 
 Eigen::Vector2d FrmTb2jointTrq(const Eigen::Vector2d &FrmTb, double theta)
 {
