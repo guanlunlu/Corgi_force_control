@@ -1,0 +1,5 @@
+#ifndef RTW_HEADER_Copy_of_linkleg_trajectory_contact_acc_types_h_
+#define RTW_HEADER_Copy_of_linkleg_trajectory_contact_acc_types_h_
+typedef struct P_Copy_of_linkleg_trajectory_contact_T_
+P_Copy_of_linkleg_trajectory_contact_T ;
+#endif

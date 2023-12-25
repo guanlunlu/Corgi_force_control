@@ -85,29 +85,29 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
               x_k_2, y_k_2;] */
     /* Xc = [xc_k_1, yc_k_1;
             yc_k_2, yc_k_2] */
-    /* Fref = [Fx_k, Fy_k;
-            Fx_k_1, Fy_k_1;
-            Fx_k_2, Fy_k_2] */
-
+    /* Fref = [Fx(k), Fy(k);
+               Fx(k-1), Fy(k-1);
+               Fx(k-2), Fy(k-2)] */
     /* TB_fb = [theta(k), beta(k);
                 theta(k-1), beta(k-1);
                 theta(k-2), beta(k-2)] */
     /* T_fb = [T_R(k), T_L(k);
                T_R(k-1), T_L(k-1);
                T_R(k-2), T_L(k-2)] */
-    /* Fext: Force exert to leg (Obtain by Virtual work method)*/
+    /* Fext: Force exert to ground (Obtain by Virtual work method)*/
 
-    // Eigen::Vector2d X_k = fk(TB_fb.row(0));
-    // Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
-    // Eigen::Vector2d X_k_2 = fk(TB_fb.row(2));
+    Eigen::Vector2d X_k = fk(TB_fb.row(0));
+    Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
+    Eigen::Vector2d X_k_2 = fk(TB_fb.row(2));
 
     Eigen::Vector2d F_k = jointTrq2footendForce(T_fb.row(0), TB_fb.row(0));
     Eigen::Vector2d F_k_1 = jointTrq2footendForce(T_fb.row(1), TB_fb.row(1));
     Eigen::Vector2d F_k_2 = jointTrq2footendForce(T_fb.row(2), TB_fb.row(2));
 
-    Eigen::Vector2d d_F_k = F_k - Fref.row(0);
-    Eigen::Vector2d d_F_k_1 = F_k_1 - Fref.row(1);
-    Eigen::Vector2d d_F_k_2 = F_k_2 - Fref.row(2);
+
+    Eigen::Vector2d d_F_k = F_k - Fref.row(0).transpose();
+    Eigen::Vector2d d_F_k_1 = F_k_1 - Fref.row(1).transpose();
+    Eigen::Vector2d d_F_k_2 = F_k_2 - Fref.row(2).transpose();
 
     Eigen::Vector2d E_k_1 = Xref.row(1) - Xc.row(0);
     Eigen::Vector2d E_k_2 = Xref.row(2) - Xc.row(1);
@@ -117,8 +117,22 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     Eigen::Matrix<double, 2, 2> w3 = K * pow(T_, 2) - 2 * D * T_ + 4 * M;
 
     Eigen::Vector2d E_k;
+    // E_k = w1.inverse() * (pow(T_, 2) * (d_F_k + 2 * d_F_k_1 + d_F_k_2) - w2 * E_k_1 - w3 * E_k_2);
     E_k = w1.inverse() * (pow(T_, 2) * (d_F_k + 2 * d_F_k_1 + d_F_k_2) - w2 * E_k_1 - w3 * E_k_2);
-    Eigen::Vector2d Xc_k = E_k + Xref.row(0);
+    Eigen::Vector2d Xc_k = Xref.row(0).transpose() - E_k;
+
+    if(Xref.row(0)[0]> -0.1){
+        std::cout << "Trq: " << T_fb.row(0) << std::endl;
+        std::cout << "TB: " << TB_fb.row(0) << std::endl;
+        std::cout << "F_k: " << F_k.transpose() << std::endl;
+        // std::cout << "dF_k: " << d_F_k.transpose() << std::endl;
+        // std::cout << "w1: " << w1.inverse() << std::endl;
+        std::cout << "E_k: " << E_k.transpose() << std::endl;
+        std::cout << "X_d: " << Xref.row(0) << std::endl;
+        std::cout << "Xc_k: " << Xc_k.transpose() << std::endl;
+        std::cout << "--" << std::endl;
+    }
+    return Xc_k;
 }
 
 Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des)
