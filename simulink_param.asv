@@ -1,0 +1,11 @@
+bk_ft= 0.5;
+bk_vel = 0.4;
+col_ft = 0.5;
+vis_ft = 1;
+
+contact_st
+% bk_ft= 2;
+% bk_vel = 0.1;
+% col_ft = 2;
+% % vis_ft = 1.6;
+% vis_ft = 0.6;

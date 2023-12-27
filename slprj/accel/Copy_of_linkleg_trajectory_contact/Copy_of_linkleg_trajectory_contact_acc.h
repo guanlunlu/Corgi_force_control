@@ -34,10 +34,10 @@ real_T B_8_71_0 ; real_T B_8_72_0 ; real_T B_8_73_0 ; real_T B_8_74_0 ;
 real_T B_8_75_0 ; real_T B_8_76_0 ; real_T B_8_77_0 ; real_T B_8_78_0 ;
 real_T B_8_79_0 ; real_T B_8_80_0 ; real_T B_8_81_0 ; real_T B_8_82_0 ;
 real_T B_8_83_0 ; real_T B_8_84_0 ; real_T B_8_85_0 ; real_T B_8_86_0 ;
-real_T B_8_103_0 [ 2 ] ; real_T B_8_104_0 [ 2 ] ; real_T B_8_112_0 [ 4 ] ;
-real_T B_8_113_0 ; real_T B_8_114_0 ; real_T B_8_115_0 ; real_T B_8_128_0 [ 4
-] ; real_T B_8_129_0 ; real_T B_8_130_0 ; real_T B_8_133_0 ; real_T B_8_135_0
-[ 4 ] ; real_T B_8_136_0 [ 4 ] ; real_T B_8_137_0 [ 16 ] ; real_T B_8_0_0_m ;
+real_T B_8_105_0 [ 2 ] ; real_T B_8_106_0 [ 2 ] ; real_T B_8_114_0 [ 4 ] ;
+real_T B_8_115_0 ; real_T B_8_116_0 ; real_T B_8_117_0 ; real_T B_8_130_0 [ 4
+] ; real_T B_8_131_0 ; real_T B_8_132_0 ; real_T B_8_135_0 ; real_T B_8_137_0
+[ 4 ] ; real_T B_8_138_0 [ 4 ] ; real_T B_8_139_0 [ 16 ] ; real_T B_8_0_0_m ;
 real_T B_8_2_0_c ; real_T B_8_3_0 ; real_T B_8_4_0 ; real_T B_8_5_0 ; real_T
 B_8_6_0 ; real_T B_8_7_0 ; real_T B_8_8_0 [ 2 ] ; real_T B_8_9_0 ; real_T
 B_8_10_0 ; real_T B_8_11_0 [ 2 ] ; real_T B_8_12_0 ; real_T B_8_13_0 ; real_T
@@ -90,6 +90,10 @@ void * AQHandles ; } TAQSigLogging_InsertedFor_SFunction_at_outport_0_PWORK ;
 struct { void * AQHandles ; }
 TAQSigLogging_InsertedFor_Motortotheta_beta_at_outport_0_PWORK ; struct {
 void * AQHandles ; }
+TAQSigLogging_InsertedFor_PSSimulinkConverter1_at_outport_0_PWORK ; struct {
+void * AQHandles ; }
+TAQSigLogging_InsertedFor_PSSimulinkConverter2_at_outport_0_PWORK ; struct {
+void * AQHandles ; }
 TAQSigLogging_InsertedFor_TransportDelay1_at_outport_0_PWORK ; struct { void
 * AQHandles ; } TAQSigLogging_InsertedFor_TransportDelay_at_outport_0_PWORK ;
 struct { void * TUbufferPtrs [ 4 ] ; } TransportDelay_PWORK_l ; void *
@@ -101,13 +105,13 @@ STATE_2_SimData ; void * STATE_2_DiagMgr ; void * STATE_2_ZcLogger ; void *
 STATE_2_TsInfo ; void * OUTPUT_2_0_Simulator ; void * OUTPUT_2_0_SimData ;
 void * OUTPUT_2_0_DiagMgr ; void * OUTPUT_2_0_ZcLogger ; void *
 OUTPUT_2_0_TsInfo ; struct { void * AQHandles ; }
-TAQSigLogging_InsertedFor_PSSimulinkConverter1_at_outport_0_PWORK ; struct {
-void * AQHandles ; } TAQSigLogging_InsertedFor_t_at_outport_0_PWORK ; void *
-OUTPUT_1_1_Simulator ; void * OUTPUT_1_1_SimData ; void * OUTPUT_1_1_DiagMgr
-; void * OUTPUT_1_1_ZcLogger ; void * OUTPUT_1_1_TsInfo ; void * Scope_PWORK
-; void * Scope_PWORK_o ; struct { void * AQHandles ; }
-TAQSigLogging_InsertedFor_PSSimulinkConverter2_at_outport_0_PWORK ; struct {
-void * AQHandles ; }
+TAQSigLogging_InsertedFor_PSSimulinkConverter1_at_outport_0_PWORK_k ; struct
+{ void * AQHandles ; } TAQSigLogging_InsertedFor_t_at_outport_0_PWORK ; void
+* OUTPUT_1_1_Simulator ; void * OUTPUT_1_1_SimData ; void *
+OUTPUT_1_1_DiagMgr ; void * OUTPUT_1_1_ZcLogger ; void * OUTPUT_1_1_TsInfo ;
+void * Scope_PWORK ; void * Scope_PWORK_o ; struct { void * AQHandles ; }
+TAQSigLogging_InsertedFor_PSSimulinkConverter2_at_outport_0_PWORK_h ; struct
+{ void * AQHandles ; }
 TAQSigLogging_InsertedFor_PSSimulinkConverter_at_outport_0_PWORK ; void *
 SINK_1_RtwLogger ; void * SINK_1_RtwLogBuffer ; void *
 SINK_1_RtwLogFcnManager ; void * SINK_2_RtwLogger ; void *
