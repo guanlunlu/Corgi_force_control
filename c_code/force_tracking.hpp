@@ -123,18 +123,18 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     E_k = w1.inverse() * (pow(T_, 2) * (d_F_k + 2 * d_F_k_1 + d_F_k_2) - w2 * E_k_1 - w3 * E_k_2);
     Eigen::Vector2d Xc_k = Xref.row(0).transpose() - E_k;
 
-    std::ofstream logfile;
-    logfile.open ("/home/guanlunlu/Corgi_force_control/log.txt", std::ios_base::app | std::ios_base::in);
-    logfile << "Trq: " << T_fb.row(0) << std::endl;
-    logfile << "TB: " << TB_fb.row(0) << std::endl;
-    logfile << "F_k: " << F_k.transpose() << std::endl;
-    logfile << "F_k_1: " << F_k_1.transpose() << std::endl;
-    logfile << "F_k_2: " << F_k_2.transpose() << std::endl;
-    logfile << "E_k: " << E_k.transpose() << std::endl;
-    logfile << "X_d: " << Xref.row(0) << std::endl;
-    logfile << "Xc_k: " << Xc_k.transpose() << std::endl;
-    logfile << "--" << std::endl;
-    logfile.close();
+    // std::ofstream logfile;
+    // logfile.open ("/home/guanlunlu/Corgi_force_control/log.txt", std::ios_base::app | std::ios_base::in);
+    // logfile << "Trq: " << T_fb.row(0) << std::endl;
+    // logfile << "TB: " << TB_fb.row(0) << std::endl;
+    // logfile << "F_k: " << F_k.transpose() << std::endl;
+    // logfile << "F_k_1: " << F_k_1.transpose() << std::endl;
+    // logfile << "F_k_2: " << F_k_2.transpose() << std::endl;
+    // logfile << "E_k: " << E_k.transpose() << std::endl;
+    // logfile << "X_d: " << Xref.row(0) << std::endl;
+    // logfile << "Xc_k: " << Xc_k.transpose() << std::endl;
+    // logfile << "--" << std::endl;
+    // logfile.close();
 
     if(Xref.row(0)[0]> -0.1){
         std::cout << "Trq: " << T_fb.row(0) << std::endl;

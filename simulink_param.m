@@ -1,7 +1,7 @@
 bk_ft= 0.5;
 bk_vel = 0.4;
 col_ft = 0.5;
-vis_ft = 1;
+vis_ft = 1.5;
 
 contact_stf = 1e5;
 contact_dmp = 1e3;

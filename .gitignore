@@ -1,3 +1,7 @@
 .vscode/*
 .vscode/c_cpp_properties.json
 .vscode/settings.json
+slprj/
+log.txt
+out.mat
+*.asv

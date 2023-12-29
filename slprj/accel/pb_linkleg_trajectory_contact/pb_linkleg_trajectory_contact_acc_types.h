@@ -1,5 +1,0 @@
-#ifndef RTW_HEADER_pb_linkleg_trajectory_contact_acc_types_h_
-#define RTW_HEADER_pb_linkleg_trajectory_contact_acc_types_h_
-typedef struct P_pb_linkleg_trajectory_contact_T_
-P_pb_linkleg_trajectory_contact_T ;
-#endif
