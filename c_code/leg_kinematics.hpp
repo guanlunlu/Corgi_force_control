@@ -24,6 +24,10 @@ Eigen::VectorXd d_Ic_coeff(4);
 
 double leg_m;
 double g;
+double breakaway_Ft;
+double breakaway_vel;
+double coulumb_Ft;
+double viscous_cff;
 
 void kinematics_setup()
 {
@@ -43,16 +47,31 @@ void kinematics_setup()
     d_rm_coeff = polyder(rm_coeff);
     dd_rm_coeff = polyder(rm_coeff);
     d_Ic_coeff = polyder(Ic_coeff);
+
+    breakaway_Ft = 0.4;
+    breakaway_vel = 0.4;
+    coulumb_Ft = 0.3;
+    viscous_cff = 0.2;
 }
 
 Eigen::Vector2d phi2tb(const Eigen::Vector2d &phi)
 {
     Eigen::Vector2d tb;
-    Eigen::Matrix2d t;
+    /* Eigen::Matrix2d t;
     Eigen::Vector2d b;
     t << 1, -1, 1, 1;
     b << deg2rad(17), 0;
-    tb = 1 / 2 * t * phi + b;
+    tb = 1 / 2 * t * phi + b; */
+
+    std::complex<double> r_cpx(0, phi[0]+deg2rad(17));
+    std::complex<double> l_cpx(0, phi[1]-deg2rad(17));
+    std::complex<double> drl = std::exp(r_cpx)/std::exp(l_cpx);
+    double theta = std::arg(drl);
+    if(theta < 0)
+        theta += 2*M_PI;
+    theta *= 0.5;
+    double beta = std::arg(std::exp(l_cpx)) + theta;
+    tb << theta, beta;
     return tb;
 }
 
@@ -65,6 +84,15 @@ Eigen::Vector2d tb2phi(const Eigen::Vector2d &tb)
     b << deg2rad(17), -deg2rad(17);
     phi = t * tb - b;
     return phi;
+}
+
+Eigen::Vector2d dtb2dphi(const Eigen::Vector2d &dtb)
+{
+    Eigen::Vector2d dphi;
+    Eigen::Matrix2d t;
+    t << 1, 1, -1, 1;
+    dphi = t * dtb;
+    return dphi;
 }
 
 Eigen::Vector2d fk(const Eigen::Vector2d &tb)
@@ -172,8 +200,6 @@ Eigen::Vector2d jointTrq2footendForce(const Eigen::Vector2d &joint_tau, const Ei
 
     return J_1_T * joint_tau;
 }
-
-
 
 Eigen::Vector2d FrmTb2jointTrq(const Eigen::Vector2d &FrmTb, double theta)
 {

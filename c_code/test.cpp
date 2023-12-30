@@ -13,6 +13,9 @@ int main()
     //                                  {3, 3}};
     Eigen::Vector2d trq(-17, 17);
 
+    Eigen::Vector2d phi(0, 0);
+    std::cout << phi2tb(phi) << std::endl;
+
     std::cout << jointTrq2footendForce(trq, tb_) << std::endl;
 
     return 0;

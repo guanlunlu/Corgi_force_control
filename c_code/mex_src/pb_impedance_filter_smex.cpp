@@ -15,7 +15,7 @@ static void mdlInitializeSizes(SimStruct *S)
 
     if (!ssSetNumInputPorts(S, 1))
         return;
-    ssSetInputPortWidth(S, 0, 34);
+    ssSetInputPortWidth(S, 0, 36);
     ssSetInputPortDirectFeedThrough(S, 0, 1);
 
     if (!ssSetNumOutputPorts(S, 1))
@@ -53,7 +53,8 @@ static void mdlOutputs(SimStruct *S, int_T tid)
                Fx(k-2), Fy(k-2)] */
     /* TB_fb = [theta(k), beta(k);
                 theta(k-1), beta(k-1);
-                theta(k-2), beta(k-2)] */
+                theta(k-2), beta(k-2);
+                theta(k-3), beta(k-3)] */
     /* T_fb = [T_R(k), T_L(k);
                T_R(k-1), T_L(k-1);
                T_R(k-2), T_L(k-2)] */
@@ -62,22 +63,22 @@ static void mdlOutputs(SimStruct *S, int_T tid)
     Eigen::Matrix<double, 3, 2> X_des;
     Eigen::Matrix<double, 2, 2> X_c;
     Eigen::Matrix<double, 3, 2> F_ref;
-    Eigen::Matrix<double, 3, 2> TB_fb;
+    Eigen::Matrix<double, 4, 2> TB_fb;
     Eigen::Matrix<double, 3, 2> T_fb; // torque feedback
     X_des << *uPtrs[0], *uPtrs[1], *uPtrs[2], *uPtrs[3], *uPtrs[4], *uPtrs[5];
     X_c << *uPtrs[6], *uPtrs[7], *uPtrs[8], *uPtrs[9];
     F_ref << *uPtrs[10], *uPtrs[11], *uPtrs[12], *uPtrs[13], *uPtrs[14], *uPtrs[15];
-    TB_fb << *uPtrs[16], *uPtrs[17], *uPtrs[18], *uPtrs[19], *uPtrs[20], *uPtrs[21];
-    T_fb << *uPtrs[22], *uPtrs[23], *uPtrs[24], *uPtrs[25], *uPtrs[26], *uPtrs[27];
+    TB_fb << *uPtrs[16], *uPtrs[17], *uPtrs[18], *uPtrs[19], *uPtrs[20], *uPtrs[21], *uPtrs[22], *uPtrs[23];
+    T_fb << *uPtrs[24], *uPtrs[25], *uPtrs[26], *uPtrs[27], *uPtrs[28], *uPtrs[29];
     
-    Eigen::Matrix2d M{{*uPtrs[28], 0},
-                      {0, *uPtrs[29]}};
-
-    Eigen::Matrix2d K{{*uPtrs[30], 0},
+    Eigen::Matrix2d M{{*uPtrs[30], 0},
                       {0, *uPtrs[31]}};
 
-    Eigen::Matrix2d D{{*uPtrs[32], 0},
+    Eigen::Matrix2d K{{*uPtrs[32], 0},
                       {0, *uPtrs[33]}};
+
+    Eigen::Matrix2d D{{*uPtrs[34], 0},
+                      {0, *uPtrs[35]}};
 
     Eigen::Vector2d Xc_k = PositionBasedImpedanceFilter(M, K, D, X_des, F_ref, X_c, TB_fb, T_fb);
 

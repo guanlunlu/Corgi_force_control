@@ -11,6 +11,8 @@
 /* Eigen::Matrix2d StiffnessAdaption()
 {
 } */
+Eigen::Vector2d jointFriction(const Eigen::Vector2d &v_phi);
+double stribeckFrictionModel(double v);
 
 Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
                                 const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 2, 2> &TB_fb,
@@ -79,7 +81,7 @@ Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d 
 
 Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
                                              const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 3, 2> &Fref,
-                                             const Eigen::Matrix<double, 2, 2> &Xc, const Eigen::Matrix<double, 3, 2> &TB_fb,
+                                             const Eigen::Matrix<double, 2, 2> &Xc, const Eigen::Matrix<double, 4, 2> &TB_fb,
                                              const Eigen::Matrix<double, 3, 2> &T_fb)
 {
     /* Xref = [x_k, y_k;
@@ -92,7 +94,8 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
                Fx(k-2), Fy(k-2)] */
     /* TB_fb = [theta(k), beta(k);
                 theta(k-1), beta(k-1);
-                theta(k-2), beta(k-2)] */
+                theta(k-2), beta(k-2)
+                theta(k-3), beta(k-3)] */
     /* T_fb = [T_R(k), T_L(k);
                T_R(k-1), T_L(k-1);
                T_R(k-2), T_L(k-2)] */
@@ -102,14 +105,32 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
     Eigen::Vector2d X_k_2 = fk(TB_fb.row(2));
 
-    Eigen::Vector2d F_k = jointTrq2footendForce(T_fb.row(0), TB_fb.row(0));
-    Eigen::Vector2d F_k_1 = jointTrq2footendForce(T_fb.row(1), TB_fb.row(1));
-    Eigen::Vector2d F_k_2 = jointTrq2footendForce(T_fb.row(2), TB_fb.row(2));
+    Eigen::Vector2d tb_k = TB_fb.row(0);
+    Eigen::Vector2d tb_k_1 = TB_fb.row(1);
+    Eigen::Vector2d tb_k_2 = TB_fb.row(2);
+    Eigen::Vector2d tb_k_3 = TB_fb.row(3);
+    
+    Eigen::Vector2d d_phi = dtb2dphi((tb_k-tb_k_1)/T_);
+    Eigen::Vector2d d_phi_1 = dtb2dphi((tb_k_1-tb_k_2)/T_);
+    Eigen::Vector2d d_phi_2 = dtb2dphi((tb_k_2-tb_k_3)/T_);
+    Eigen::Vector2d tau_ft = jointFriction(d_phi);
+    Eigen::Vector2d tau_ft_1 = jointFriction(d_phi_1);
+    Eigen::Vector2d tau_ft_2 = jointFriction(d_phi_2);
 
+    Eigen::Vector2d F_k = jointTrq2footendForce(T_fb.row(0).transpose()-tau_ft, TB_fb.row(0));
+    Eigen::Vector2d F_k_1 = jointTrq2footendForce(T_fb.row(1).transpose()-tau_ft_1, TB_fb.row(1));
+    Eigen::Vector2d F_k_2 = jointTrq2footendForce(T_fb.row(2).transpose()-tau_ft_2, TB_fb.row(2));
 
-    Eigen::Vector2d d_F_k = Fref.row(0).transpose() - F_k;
+    /* Eigen::Vector2d d_F_k = Fref.row(0).transpose() - F_k;
     Eigen::Vector2d d_F_k_1 = Fref.row(1).transpose() - F_k_1;
     Eigen::Vector2d d_F_k_2 = Fref.row(2).transpose() - F_k_2;
+    Eigen::Vector2d d_F_k = F_k - Fref.row(0).transpose();
+    Eigen::Vector2d d_F_k_1 = F_k_1 - Fref.row(1).transpose();
+    Eigen::Vector2d d_F_k_2 = F_k_2 - Fref.row(2).transpose(); */
+
+    Eigen::Vector2d d_F_k = F_k;
+    Eigen::Vector2d d_F_k_1 = F_k_1;
+    Eigen::Vector2d d_F_k_2 = F_k_2;
 
     Eigen::Vector2d E_k_1 = Xref.row(1) - Xc.row(0);
     Eigen::Vector2d E_k_2 = Xref.row(2) - Xc.row(1);
@@ -119,25 +140,28 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     Eigen::Matrix<double, 2, 2> w3 = K * pow(T_, 2) - 2 * D * T_ + 4 * M;
 
     Eigen::Vector2d E_k;
-    // E_k = w1.inverse() * (pow(T_, 2) * (d_F_k + 2 * d_F_k_1 + d_F_k_2) - w2 * E_k_1 - w3 * E_k_2);
     E_k = w1.inverse() * (pow(T_, 2) * (d_F_k + 2 * d_F_k_1 + d_F_k_2) - w2 * E_k_1 - w3 * E_k_2);
     Eigen::Vector2d Xc_k = Xref.row(0).transpose() - E_k;
 
-    // std::ofstream logfile;
-    // logfile.open ("/home/guanlunlu/Corgi_force_control/log.txt", std::ios_base::app | std::ios_base::in);
-    // logfile << "Trq: " << T_fb.row(0) << std::endl;
-    // logfile << "TB: " << TB_fb.row(0) << std::endl;
-    // logfile << "F_k: " << F_k.transpose() << std::endl;
-    // logfile << "F_k_1: " << F_k_1.transpose() << std::endl;
-    // logfile << "F_k_2: " << F_k_2.transpose() << std::endl;
-    // logfile << "E_k: " << E_k.transpose() << std::endl;
-    // logfile << "X_d: " << Xref.row(0) << std::endl;
-    // logfile << "Xc_k: " << Xc_k.transpose() << std::endl;
-    // logfile << "--" << std::endl;
-    // logfile.close();
+    /* std::ofstream logfile;
+    logfile.open ("/home/guanlunlu/Corgi_force_control/log.txt", std::ios_base::app | std::ios_base::in);
+    logfile << "Trq: " << T_fb.row(0) << std::endl;
+    logfile << "TB: " << TB_fb.row(0) << std::endl;
+    logfile << "F_k: " << F_k.transpose() << std::endl;
+    logfile << "F_k_1: " << F_k_1.transpose() << std::endl;
+    logfile << "F_k_2: " << F_k_2.transpose() << std::endl;
+    logfile << "E_k: " << E_k.transpose() << std::endl;
+    logfile << "X_d: " << Xref.row(0) << std::endl;
+    logfile << "Xc_k: " << Xc_k.transpose() << std::endl;
+    logfile << "--" << std::endl;
+    logfile.close(); */
 
     if(Xref.row(0)[0]> -0.1){
         std::cout << "Trq: " << T_fb.row(0) << std::endl;
+        std::cout << tb_k.transpose() << "\n" << tb_k_1.transpose() << std::endl;
+        std::cout << "dphi: " << d_phi.transpose() << std::endl;
+        std::cout << "Trq_ft: " << tau_ft.transpose() << std::endl;
+        std::cout << "Trq_total: " << T_fb.row(0)-tau_ft.transpose() << std::endl;
         std::cout << "TB: " << TB_fb.row(0) << std::endl;
         std::cout << "F_k: " << F_k.transpose() << std::endl;
         std::cout << "F_k_1: " << F_k_1.transpose() << std::endl;
@@ -191,5 +215,25 @@ Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des)
 
     return joint_trq;
 }
+
+
+Eigen::Vector2d jointFriction(const Eigen::Vector2d &v_phi)
+{
+    /* Apply Stribeck friction model */
+    double tf_R = stribeckFrictionModel(v_phi[0]);
+    double tf_L = stribeckFrictionModel(v_phi[1]);
+    Eigen::Vector2d t_friction(tf_R, tf_L);
+    return t_friction;
+}
+
+double stribeckFrictionModel(double v)
+{
+    double v_st = breakaway_vel * sqrt(2);
+    double v_coul = breakaway_vel / 10;
+    double e = std::exp(1);
+    double F = sqrt(2*e)*(breakaway_Ft - coulumb_Ft)*std::exp(-pow((v/v_st),2))*v/v_st + coulumb_Ft*tanh(v/v_coul)+viscous_cff*v;
+    return F;
+}
+
 
 #endif
