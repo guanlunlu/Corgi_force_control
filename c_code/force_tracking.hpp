@@ -121,6 +121,10 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     Eigen::Vector2d F_k_1 = jointTrq2footendForce(T_fb.row(1).transpose()-tau_ft_1, TB_fb.row(1));
     Eigen::Vector2d F_k_2 = jointTrq2footendForce(T_fb.row(2).transpose()-tau_ft_2, TB_fb.row(2));
 
+    // Eigen::Vector2d F_k = jointTrq2footendForce(T_fb.row(0).transpose(), TB_fb.row(0));
+    // Eigen::Vector2d F_k_1 = jointTrq2footendForce(T_fb.row(1).transpose(), TB_fb.row(1));
+    // Eigen::Vector2d F_k_2 = jointTrq2footendForce(T_fb.row(2).transpose(), TB_fb.row(2));
+
     /* Eigen::Vector2d d_F_k = Fref.row(0).transpose() - F_k;
     Eigen::Vector2d d_F_k_1 = Fref.row(1).transpose() - F_k_1;
     Eigen::Vector2d d_F_k_2 = Fref.row(2).transpose() - F_k_2;

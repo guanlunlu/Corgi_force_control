@@ -49,9 +49,14 @@ void kinematics_setup()
     d_Ic_coeff = polyder(Ic_coeff);
 
     breakaway_Ft = 0.4;
-    breakaway_vel = 0.4;
-    coulumb_Ft = 0.3;
-    viscous_cff = 0.2;
+    breakaway_vel = 0.005;
+    coulumb_Ft = 0.1;
+    viscous_cff = 0.25;
+
+    // breakaway_Ft = 0.0;
+    // breakaway_vel = 0.0;
+    // coulumb_Ft = 0.0;
+    // viscous_cff = 0.0;
 }
 
 Eigen::Vector2d phi2tb(const Eigen::Vector2d &phi)
