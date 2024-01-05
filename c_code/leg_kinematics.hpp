@@ -51,7 +51,7 @@ void kinematics_setup()
     breakaway_Ft = 0.4;
     breakaway_vel = 0.005;
     coulumb_Ft = 0.1;
-    viscous_cff = 0.25;
+    viscous_cff = 0.15;
 
     // breakaway_Ft = 0.0;
     // breakaway_vel = 0.0;

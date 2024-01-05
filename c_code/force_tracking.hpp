@@ -11,6 +11,8 @@
 /* Eigen::Matrix2d StiffnessAdaption()
 {
 } */
+Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des);
+Eigen::Vector2d ID2(const Eigen::Matrix<double, 3, 2> &X_des);
 Eigen::Vector2d jointFriction(const Eigen::Vector2d &v_phi);
 double stribeckFrictionModel(double v);
 
@@ -48,7 +50,7 @@ Eigen::Vector2d ImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d 
     Eigen::Vector2d Xe_pos = Xref.row(0).transpose() - fe_fb_pos;
     Eigen::Vector2d Xe_vel = Xref.row(1).transpose() - fe_fb_vel;
     Eigen::Vector2d Fext = jointTrq2footendForce(T_fb, TB_fb.row(0));
-    Fext = Fext * -1;
+    // Fext = Fext * -1;
 
     Eigen::Vector2d Xeef_ddot;
     Xeef_ddot = Xref_ddot + M.inverse() * (K * (Xe_pos) + D * (Xe_vel) + Fext);
@@ -180,6 +182,60 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     return Xc_k;
 }
 
+Eigen::Vector2d PB_impf2(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
+                        const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 2, 1> &Fref,
+                        const Eigen::Matrix<double, 3, 2> &TB_fb, const Eigen::Matrix<double, 2, 1> &T_fb)
+{
+    /* Xref = [x_d, y_d;
+              vx_d, vy_d;
+              ax_d, ay_d;] */
+    /* Fref = [Fx(k), Fy(k)] */
+    Eigen::Vector2d P_d = Xref.row(0);
+    Eigen::Vector2d V_d = Xref.row(1);
+    Eigen::Vector2d A_d = Xref.row(2);
+
+    Eigen::Vector2d X_k = fk(TB_fb.row(0));
+    Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
+    Eigen::Vector2d X_k_2 = fk(TB_fb.row(2));
+    Eigen::Vector2d V_k = (X_k - X_k_1)/T_;
+    Eigen::Vector2d V_k_1 = (X_k_1 - X_k_2)/T_;
+    Eigen::Vector2d A_k = (V_k - V_k_1)/T_;
+    // Eigen::Matrix<double, 3, 2> eef_fb_state;
+    // eef_fb_state << X_k[0], X_k[1], V_k[0], V_k[1], A_k[0], A_k[1];
+    // Eigen::Vector2d tau_inertia = InverseDyanmics(eef_fb_state);
+
+
+    Eigen::Vector2d tb_k = TB_fb.row(0);
+    Eigen::Vector2d tb_k_1 = TB_fb.row(1);
+    Eigen::Vector2d tb_k_2 = TB_fb.row(2);
+    Eigen::Vector2d dtb_k = (tb_k - tb_k_1)/T_;
+    Eigen::Vector2d dtb_k_1 = (tb_k_1 - tb_k_2)/T_;
+    Eigen::Vector2d ddtb_k = (dtb_k - dtb_k_1)/T_;
+    Eigen::Matrix<double, 3, 2> tb_fb_state;
+    tb_fb_state << tb_k[0], tb_k[1], dtb_k[0], dtb_k[1], ddtb_k[0], ddtb_k[1];
+    Eigen::Vector2d tau_inertia = ID2(tb_fb_state);
+
+
+    Eigen::Vector2d d_phi = dtb2dphi((tb_k - tb_k_1) / T_);
+    Eigen::Vector2d tau_ft = jointFriction(d_phi);
+    Eigen::Vector2d F_k = jointTrq2footendForce(T_fb - tau_inertia - tau_ft, TB_fb.row(0));
+    // Eigen::Vector2d F_k = jointTrq2footendForce(T_fb, TB_fb.row(0)); // no friction
+
+    Eigen::Vector2d E_F_k = F_k - Fref;
+    Eigen::Vector2d A_c = A_d - M.inverse()*(E_F_k - D*(V_d-V_k)- K*(P_d-X_k));
+    std::cout << "T_fb:" << T_fb.transpose() << std::endl;
+    std::cout << "tau_inertia:" << tau_inertia.transpose() << std::endl;
+    std::cout << "tau_ft:" << tau_ft.transpose() << std::endl;
+    std::cout << "Net torque: " << (T_fb - tau_inertia - tau_ft).transpose() << std::endl;
+    std::cout << "Net force: " << F_k.transpose() << std::endl;
+    std::cout << "E_F_k: " << E_F_k.transpose() << std::endl;
+    std::cout << "P_d " << P_d.transpose() << std::endl;
+    // std::cout << "X_k " << X_k.transpose() << std::endl;
+    std::cout << "E_pos: " << (P_d-X_k).transpose() << std::endl;
+    std::cout << "-" << std::endl;
+    return A_c;
+}
+
 Eigen::Vector2d AdaptiveImpedanceFilter(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
                                         const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 3, 2> &Fref,
                                         const Eigen::Matrix<double, 2, 2> &Xc, const Eigen::Matrix<double, 4, 2> &TB_fb,
@@ -303,9 +359,37 @@ Eigen::Vector2d InverseDyanmics(const Eigen::Matrix<double, 3, 2> &X_des)
     Eigen::Vector2d Frm_Tb;
     Eigen::Vector2d joint_trq;
     Frm_Tb = Mq * ddq + Cq + Gq;
-    std::cout << "Frm_Tb = " << Frm_Tb << std::endl;
+    std::cout << "Frm_Tb = " << Frm_Tb.transpose() << std::endl;
     joint_trq = FrmTb2jointTrq(Frm_Tb, tb[0]);
-    // std::cout << "joint_trq = " << joint_trq << std::endl;
+
+    return joint_trq;
+}
+
+Eigen::Vector2d ID2(const Eigen::Matrix<double, 3, 2> &TB)
+{
+    Eigen::Vector2d tb = TB.row(0);
+    Eigen::Vector2d dtb = TB.row(1);
+    Eigen::Vector2d ddtb = TB.row(2);
+
+    /* q = [Rm; beta] */
+    Eigen::Vector2d q(Rm(tb[0]), tb[1]);
+    Eigen::Vector2d dq(dRm(tb[0], dtb[0]), dtb[1]);
+    Eigen::Vector2d ddq(ddRm(tb[0], dtb[0], ddtb[0]), ddtb[1]);
+    Eigen::Matrix2d Mq;
+    Eigen::Vector2d Cq;
+    Eigen::Vector2d Gq;
+    Mq << leg_m, 0,
+        0, Ic(tb[0]) + leg_m * pow(q[0], 2);
+    Cq << -leg_m * q[0] * pow(q[1], 2),
+        2 * leg_m * q[0] * dq[0] * dq[1] + dIc(tb[0], dtb[0]) * dq[1];
+    Gq << -leg_m * g * cos(q[1]),
+        -leg_m * g * q[0] * sin(q[1]);
+
+    Eigen::Vector2d Frm_Tb;
+    Eigen::Vector2d joint_trq;
+    Frm_Tb = Mq * ddq + Cq + Gq;
+    std::cout << "Frm_Tb = " << Frm_Tb.transpose() << std::endl;
+    joint_trq = FrmTb2jointTrq(Frm_Tb, tb[0]);
 
     return joint_trq;
 }
