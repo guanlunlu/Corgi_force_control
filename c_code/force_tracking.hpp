@@ -159,7 +159,7 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     logfile << "--" << std::endl;
     logfile.close(); */
 
-    if (Xref.row(0)[0] > -0.1)
+    /* if (Xref.row(0)[0] > -0.1)
     {
         // std::cout << "Trq: " << T_fb.row(0) << std::endl;
         // std::cout << tb_k.transpose() << "\n" << tb_k_1.transpose() << std::endl;
@@ -176,15 +176,59 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
         // std::cout << "X_d: " << Xref.row(0) << std::endl;
         // std::cout << "Xc_k: " << Xc_k.transpose() << std::endl;
         // std::cout << "--" << std::endl;
-    }
+    } */
     Eigen::Vector2d X_d = Xref.row(0);
     // return X_d;
     return Xc_k;
 }
 
+Eigen::Matrix<double, 2, 3> AdaptiveStiffness(const Eigen::Vector2d &F_d, const Eigen::Vector2d &T_fb, const Eigen::Matrix2d &K, const Eigen::Matrix2d &Alpha,
+                                              const Eigen::Matrix2d &r_k_1, const Eigen::Matrix<double, 2, 2> &X_des, const Eigen::Matrix<double, 2, 2> &TB_fb)
+{
+    // F_d: Desired Force, leg exerted to ground
+    // F_b: Feedback Force, leg exerted to ground
+    // Eigen::Vector2d E_F = F_d - F_b;
+    /* TB_fb = [theta(k), beta(k);
+                theta(k-1), beta(k-1)] */
+
+    Eigen::Vector2d X_k = fk(TB_fb.row(0));
+    Eigen::Vector2d E_k = X_des.row(0).transpose() - X_k;
+    Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
+    Eigen::Vector2d E_k_1 = X_des.row(1).transpose() - X_k_1;
+    Eigen::Vector2d V_E_k = (E_k - E_k_1) / T_;
+
+    Eigen::Vector2d tb_k = TB_fb.row(0);
+    Eigen::Vector2d tb_k_1 = TB_fb.row(1);
+    Eigen::Vector2d d_phi = dtb2dphi((tb_k - tb_k_1) / T_);
+    Eigen::Vector2d tau_ft = jointFriction(d_phi);
+    Eigen::Vector2d F_b = jointTrq2footendForce(T_fb - tau_ft, TB_fb.row(0));
+    Eigen::Vector2d E_F = F_b - F_d;
+
+    Eigen::Matrix2d E_F_M;
+    E_F_M << E_F[0], 0,
+        0, E_F[1];
+
+    Eigen::Matrix2d V_E{{V_E_k[0], 0},
+                        {0, V_E_k[1]}};
+
+    Eigen::Matrix2d w{{1e-8, 0},
+                      {0, 1e-8}};
+
+    Eigen::Matrix2d r_k = r_k_1 + Alpha * K.inverse() * E_F_M;
+    Eigen::Matrix2d d_K = K * (V_E + w).inverse() * r_k;
+    Eigen::Matrix2d K_new = K + d_K;
+    Eigen::Matrix<double, 2, 3> output;
+    output << K_new.coeff(0, 0), K_new.coeff(0, 1), r_k.coeff(0, 0), K_new.coeff(1, 0), K_new.coeff(1, 1), r_k.coeff(1, 0);
+    std::cout << "E_F: " << E_F.transpose() << std::endl;
+    std::cout << "r_k_1: " << r_k_1.coeff(0, 0) << " " << r_k_1.coeff(1, 1) << std::endl;
+    std::cout << "K: " << K_new.coeff(0, 0) << " " << K_new.coeff(1, 1) << std::endl;
+    std::cout << "--" << std::endl;
+    return output;
+}
+
 Eigen::Vector2d PB_impf2(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, const Eigen::Matrix2d &D,
-                        const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 2, 1> &Fref,
-                        const Eigen::Matrix<double, 3, 2> &TB_fb, const Eigen::Matrix<double, 2, 1> &T_fb)
+                         const Eigen::Matrix<double, 3, 2> &Xref, const Eigen::Matrix<double, 2, 1> &Fref,
+                         const Eigen::Matrix<double, 3, 2> &TB_fb, const Eigen::Matrix<double, 2, 1> &T_fb)
 {
     /* Xref = [x_d, y_d;
               vx_d, vy_d;
@@ -197,24 +241,22 @@ Eigen::Vector2d PB_impf2(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, con
     Eigen::Vector2d X_k = fk(TB_fb.row(0));
     Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
     Eigen::Vector2d X_k_2 = fk(TB_fb.row(2));
-    Eigen::Vector2d V_k = (X_k - X_k_1)/T_;
-    Eigen::Vector2d V_k_1 = (X_k_1 - X_k_2)/T_;
-    Eigen::Vector2d A_k = (V_k - V_k_1)/T_;
+    Eigen::Vector2d V_k = (X_k - X_k_1) / T_;
+    Eigen::Vector2d V_k_1 = (X_k_1 - X_k_2) / T_;
+    Eigen::Vector2d A_k = (V_k - V_k_1) / T_;
     // Eigen::Matrix<double, 3, 2> eef_fb_state;
     // eef_fb_state << X_k[0], X_k[1], V_k[0], V_k[1], A_k[0], A_k[1];
     // Eigen::Vector2d tau_inertia = InverseDyanmics(eef_fb_state);
 
-
     Eigen::Vector2d tb_k = TB_fb.row(0);
     Eigen::Vector2d tb_k_1 = TB_fb.row(1);
     Eigen::Vector2d tb_k_2 = TB_fb.row(2);
-    Eigen::Vector2d dtb_k = (tb_k - tb_k_1)/T_;
-    Eigen::Vector2d dtb_k_1 = (tb_k_1 - tb_k_2)/T_;
-    Eigen::Vector2d ddtb_k = (dtb_k - dtb_k_1)/T_;
+    Eigen::Vector2d dtb_k = (tb_k - tb_k_1) / T_;
+    Eigen::Vector2d dtb_k_1 = (tb_k_1 - tb_k_2) / T_;
+    Eigen::Vector2d ddtb_k = (dtb_k - dtb_k_1) / T_;
     Eigen::Matrix<double, 3, 2> tb_fb_state;
     tb_fb_state << tb_k[0], tb_k[1], dtb_k[0], dtb_k[1], ddtb_k[0], ddtb_k[1];
     Eigen::Vector2d tau_inertia = ID2(tb_fb_state);
-
 
     Eigen::Vector2d d_phi = dtb2dphi((tb_k - tb_k_1) / T_);
     Eigen::Vector2d tau_ft = jointFriction(d_phi);
@@ -222,7 +264,7 @@ Eigen::Vector2d PB_impf2(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, con
     // Eigen::Vector2d F_k = jointTrq2footendForce(T_fb, TB_fb.row(0)); // no friction
 
     Eigen::Vector2d E_F_k = F_k - Fref;
-    Eigen::Vector2d A_c = A_d - M.inverse()*(E_F_k - D*(V_d-V_k)- K*(P_d-X_k));
+    Eigen::Vector2d A_c = A_d - M.inverse() * (E_F_k - D * (V_d - V_k) - K * (P_d - X_k));
     std::cout << "T_fb:" << T_fb.transpose() << std::endl;
     std::cout << "tau_inertia:" << tau_inertia.transpose() << std::endl;
     std::cout << "tau_ft:" << tau_ft.transpose() << std::endl;
@@ -231,7 +273,7 @@ Eigen::Vector2d PB_impf2(const Eigen::Matrix2d &M, const Eigen::Matrix2d &K, con
     std::cout << "E_F_k: " << E_F_k.transpose() << std::endl;
     std::cout << "P_d " << P_d.transpose() << std::endl;
     // std::cout << "X_k " << X_k.transpose() << std::endl;
-    std::cout << "E_pos: " << (P_d-X_k).transpose() << std::endl;
+    std::cout << "E_pos: " << (P_d - X_k).transpose() << std::endl;
     std::cout << "-" << std::endl;
     return A_c;
 }
