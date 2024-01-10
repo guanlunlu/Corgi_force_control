@@ -48,10 +48,10 @@ void kinematics_setup()
     dd_rm_coeff = polyder(rm_coeff);
     d_Ic_coeff = polyder(Ic_coeff);
 
-    breakaway_Ft = 0.4;
-    breakaway_vel = 0.005;
-    coulumb_Ft = 0.1;
-    viscous_cff = 0.15;
+    breakaway_Ft = 0.3;
+    breakaway_vel = 0.01;
+    coulumb_Ft = 0.01;
+    viscous_cff = 1.5;
 
     // breakaway_Ft = 0.0;
     // breakaway_vel = 0.0;

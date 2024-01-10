@@ -1,4 +1,4 @@
-#define S_FUNCTION_NAME adaptive_stiffness_smex /* Defines and Includes */
+#define S_FUNCTION_NAME force_estimate_smex /* Defines and Includes */
 #define S_FUNCTION_LEVEL 2
 #include "stdio.h"
 #include "simstruc.h"
@@ -15,12 +15,12 @@ static void mdlInitializeSizes(SimStruct *S)
 
     if (!ssSetNumInputPorts(S, 1))
         return;
-    ssSetInputPortWidth(S, 0, 22);
+    ssSetInputPortWidth(S, 0, 8);
     ssSetInputPortDirectFeedThrough(S, 0, 1);
 
     if (!ssSetNumOutputPorts(S, 1))
         return;
-    ssSetOutputPortWidth(S, 0, 4);
+    ssSetOutputPortWidth(S, 0, 8);
 
     ssSetNumSampleTimes(S, 1);
 
@@ -43,31 +43,28 @@ static void mdlOutputs(SimStruct *S, int_T tid)
 
     kinematics_setup();
 
-    Eigen::Matrix2d F_d{{*uPtrs[0], *uPtrs[1]},
-                        {*uPtrs[2], *uPtrs[3]}};
+    Eigen::Vector2d T_fb(*uPtrs[0], *uPtrs[1]);
+    Eigen::Vector2d TB_fb(*uPtrs[2], *uPtrs[3]);
+    Eigen::Vector2d TB_fb_1(*uPtrs[4], *uPtrs[5]);
+    Eigen::Vector2d TB_fb_2(*uPtrs[6], *uPtrs[7]);
 
-    Eigen::Matrix2d T_fb{{*uPtrs[4], *uPtrs[5]},
-                          {*uPtrs[6], *uPtrs[7]}};
-    Eigen::Matrix2d X_des{{*uPtrs[8], *uPtrs[9]},
-                          {*uPtrs[10], *uPtrs[11]}};
-    Eigen::Matrix2d TB_fb{{*uPtrs[12], *uPtrs[13]},
-                          {*uPtrs[14], *uPtrs[15]}};
+    Eigen::Matrix<double, 3, 2> tb_fb_state;
+    tb_fb_state << TB_fb[0], TB_fb[1], TB_fb_1[0], TB_fb_1[1], TB_fb_2[0], TB_fb_2[1];
+    Eigen::Vector2d tau_inertia = ID2(tb_fb_state);
 
-    Eigen::Matrix2d K{{*uPtrs[16], 0},
-                      {0, *uPtrs[17]}};
+    Eigen::Vector2d d_phi = dtb2dphi((TB_fb - TB_fb_1) / T_);
+    Eigen::Vector2d tau_ft = jointFriction(d_phi);
+    Eigen::Vector2d F_est = jointTrq2footendForce(T_fb -tau_inertia - tau_ft, TB_fb);
+    
 
-    Eigen::Matrix2d Alpha{{*uPtrs[18], 0},
-                          {0, *uPtrs[19]}};
-
-    Eigen::Matrix2d r_k_1{{*uPtrs[20], 0},
-                          {0, *uPtrs[21]}};
-
-    Eigen::Matrix<double, 2, 3> Adapt_out = AdaptiveStiffness(F_d, T_fb, K, Alpha, r_k_1, X_des, TB_fb);
-
-    output[0] = Adapt_out.coeff(0, 0);
-    output[1] = Adapt_out.coeff(1, 1);
-    output[2] = Adapt_out.coeff(0, 2);
-    output[3] = Adapt_out.coeff(1, 2);
+    output[0] = F_est[0];
+    output[1] = F_est[1];
+    output[2] = T_fb[0];
+    output[3] = T_fb[1];
+    output[4] = tau_inertia[0];
+    output[5] = tau_inertia[1];
+    output[6] = tau_ft[0];
+    output[7] = tau_ft[1];
 }
 
 static void mdlTerminate(SimStruct *S) {}

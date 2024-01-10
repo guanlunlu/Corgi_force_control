@@ -182,7 +182,7 @@ Eigen::Vector2d PositionBasedImpedanceFilter(const Eigen::Matrix2d &M, const Eig
     return Xc_k;
 }
 
-Eigen::Matrix<double, 2, 3> AdaptiveStiffness(const Eigen::Vector2d &F_d, const Eigen::Vector2d &T_fb, const Eigen::Matrix2d &K, const Eigen::Matrix2d &Alpha,
+Eigen::Matrix<double, 2, 3> AdaptiveStiffness(const Eigen::Matrix2d &F_d, const Eigen::Matrix<double, 2, 2> &T_fb, const Eigen::Matrix2d &K, const Eigen::Matrix2d &Alpha,
                                               const Eigen::Matrix2d &r_k_1, const Eigen::Matrix<double, 2, 2> &X_des, const Eigen::Matrix<double, 2, 2> &TB_fb)
 {
     // F_d: Desired Force, leg exerted to ground
@@ -191,7 +191,7 @@ Eigen::Matrix<double, 2, 3> AdaptiveStiffness(const Eigen::Vector2d &F_d, const 
     /* TB_fb = [theta(k), beta(k);
                 theta(k-1), beta(k-1)] */
 
-    Eigen::Vector2d X_k = fk(TB_fb.row(0));
+    /* Eigen::Vector2d X_k = fk(TB_fb.row(0));
     Eigen::Vector2d E_k = X_des.row(0).transpose() - X_k;
     Eigen::Vector2d X_k_1 = fk(TB_fb.row(1));
     Eigen::Vector2d E_k_1 = X_des.row(1).transpose() - X_k_1;
@@ -213,16 +213,43 @@ Eigen::Matrix<double, 2, 3> AdaptiveStiffness(const Eigen::Vector2d &F_d, const 
 
     Eigen::Matrix2d w{{1e-8, 0},
                       {0, 1e-8}};
-
     Eigen::Matrix2d r_k = r_k_1 + Alpha * K.inverse() * E_F_M;
     Eigen::Matrix2d d_K = K * (V_E + w).inverse() * r_k;
     Eigen::Matrix2d K_new = K + d_K;
     Eigen::Matrix<double, 2, 3> output;
+
     output << K_new.coeff(0, 0), K_new.coeff(0, 1), r_k.coeff(0, 0), K_new.coeff(1, 0), K_new.coeff(1, 1), r_k.coeff(1, 0);
     std::cout << "E_F: " << E_F.transpose() << std::endl;
     std::cout << "r_k_1: " << r_k_1.coeff(0, 0) << " " << r_k_1.coeff(1, 1) << std::endl;
     std::cout << "K: " << K_new.coeff(0, 0) << " " << K_new.coeff(1, 1) << std::endl;
-    std::cout << "--" << std::endl;
+    std::cout << "--" << std::endl;*/
+
+    // Eigen::Vector2d tb_k = TB_fb.row(0);
+    // Eigen::Vector2d tb_k_1 = TB_fb.row(1);
+    // Eigen::Vector2d d_phi = dtb2dphi((tb_k - tb_k_1) / T_);
+    // Eigen::Vector2d tau_ft = jointFriction(d_phi);
+
+    Eigen::Vector2d F_b = jointTrq2footendForce(T_fb.row(0).transpose(), TB_fb.row(0));
+    Eigen::Vector2d F_b_1 = jointTrq2footendForce(T_fb.row(1).transpose(), TB_fb.row(1));
+    Eigen::Vector2d E_F = F_b - F_d.row(0).transpose();
+    Eigen::Vector2d E_F_1 = F_b_1 - F_d.row(1).transpose();
+    // E_F = E_F * -1;
+    // E_F_1 = E_F_1 * -1;
+    Eigen::Vector2d d_E_F = (E_F - E_F_1)/T_;
+    
+    Eigen::DiagonalMatrix<double, 2> E_F_M(E_F[0], E_F[1]);
+    Eigen::DiagonalMatrix<double, 2> d_E_F_M(d_E_F[0], d_E_F[1]);
+
+    Eigen::Matrix<double, 2, 3> output;
+    Eigen::Matrix2d Kp{{100, 0}, 
+                       {0, 100}};
+    Eigen::Matrix2d Kd{{40, 0}, 
+                       {0, 40}};
+    Eigen::Matrix2d K_ = K + Kp * E_F_M + Kd * d_E_F_M;
+
+    output << K_.coeff(0,0), K_.coeff(0,1), 0,
+              K_.coeff(1,0), K_.coeff(1,1), 0;
+
     return output;
 }
 
@@ -430,7 +457,7 @@ Eigen::Vector2d ID2(const Eigen::Matrix<double, 3, 2> &TB)
     Eigen::Vector2d Frm_Tb;
     Eigen::Vector2d joint_trq;
     Frm_Tb = Mq * ddq + Cq + Gq;
-    std::cout << "Frm_Tb = " << Frm_Tb.transpose() << std::endl;
+    // std::cout << "Frm_Tb = " << Frm_Tb.transpose() << std::endl;
     joint_trq = FrmTb2jointTrq(Frm_Tb, tb[0]);
 
     return joint_trq;

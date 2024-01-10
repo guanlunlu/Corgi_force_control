@@ -4,7 +4,7 @@ addpath("function/");
 addpath("script");
 
 
-bk_ft= 0.3;
+bk_ft= 0.1;
 bk_vel = 0.001;
 col_ft = 0.01;
 vis_ft = 1.5;
@@ -14,10 +14,13 @@ vis_ft = 1.5;
 % col_ft = 0.5;
 % vis_ft = 1.5;
 
-contact_stf = 1e5;
+contact_stf = 1e8;
 contact_dmp = 1e3;
 contact_trs = 1e-4;
 
+joint_kp = 60;
+joint_ki = 0.8;
+joint_kd = 1.75;
 % bk_ft= 2;
 % bk_vel = 0.1;
 % col_ft = 2;
