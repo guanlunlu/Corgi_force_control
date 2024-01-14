@@ -1,12 +1,32 @@
-function [output] = getInitConf(init_theta)
+function conf = getInitConf(theta)
 %GETINITCONF Summary of this function goes here
 %   Detailed explanation goes here
 
-OA_R = @(th)[sin(th).*(2.0./2.5e+1);cos(th).*(2.0./2.5e+1)];
-OB_R = @(th)[sin(th)./1.0e+1;cos(th)./1.0e+1];
-OC_R = @(th)[sin(th).*(8.0./3.25e+2)+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).*1.0./sqrt(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2).*sqrt(((sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2-1.601988433180094e-2).^2.*(-3.20665112772604e+1))./(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2)+1.0).*8.8296634e-2+(sin(th).*(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2-1.601988433180094e-2).*3.769230769230769e-2)./(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2);cos(th).*(2.0./2.5e+1)-sqrt(sin(th).^2.*(-6.4e+1./1.69e+2)+1.0).*(9.0./1.0e+2)+((cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).*(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2-1.601988433180094e-2))./(sin(th).^2.*1.136568047337278e-2+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2.*2.0)-sin(th).*1.0./sqrt(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2).*sqrt(((sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2-1.601988433180094e-2).^2.*(-3.20665112772604e+1))./(sin(th).^2.*5.682840236686391e-3+(cos(th)./5.0e+1+sqrt(cos(th).^2.*6.4e+1+1.05e+2).*6.923076923076923e-3).^2)+1.0).*6.656207793846154e-3];
-OD_R = @(th)[sin(th).*(8.0./3.25e+2);cos(th).*(2.0./2.5e+1)-sqrt(sin(th).^2.*(-6.4e+1./1.69e+2)+1.0).*(9.0./1.0e+2)]
-OE_R = @(th)[0.0;cos(th).*(2.0./2.5e+1)-sqrt(sin(th).^2.*(-6.4e+1./1.69e+2)+1.0).*(1.3e+1./1.0e+2)]
-OF_R = 
+OA_R = nOA_R(theta)
+OB_R = nOB_R(theta);
+OC_R = nOC_R(theta);
+OD_R = nOD_R(theta)
+OE_R = nOE_R(theta);
+OF_R = nOF_R(theta);
+OG = nOG(theta);
+
+AD_R = OD_R - OA_R;
+DC_R = OC_R - OD_R;
+BF_R = OF_R - OB_R;
+FG_R = OG - OF_R;
+
+out.angle_AR = vector_angle(OA_R, AD_R);
+out.angle_DR = vector_angle(AD_R, DC_R);
+out.angle_FR = vector_angle(BF_R, FG_R);
+
+out.angle_AL = -1 * out.angle_AR;
+out.angle_DL = -1 * out.angle_DR;
+out.angle_FL = -1 * out.angle_FR;
+% out.angle_AL = -1 * out.angle_AL;
+% out.angle_DL = -1 * out.angle_DL;
+% out.angle_AR = -1 * out.angle_AR;
+% out.angle_DR = -1 * out.angle_DR;
+
+conf = out;
 end
 
