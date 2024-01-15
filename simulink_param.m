@@ -24,8 +24,8 @@ joint_ki = 0;
 joint_kd = 1;
 
 % Start touch ground pose
-start_time = 0.5;
-init_xy = [-0.05, -0.185];
+start_time = 0.35;
+init_xy = [-0.05, -0.187];
 init_tb = ik(init_xy);
 init_sphi = getSimPhiRL(init_tb);
 % init_tb = [pi/2, 0];
@@ -37,10 +37,18 @@ init_tb_0 = ik(init_xy_0);
 init_sphi_0 = getSimPhiRL(init_tb_0);
 
 %
-adaptive_kp = 20;
-adaptive_ki = 10;
-adaptive_kd = 40;
+% adaptive_kp = 106.5898;
+% adaptive_ki = 98.0927;
+% adaptive_kd = 139.2424;
+
+% adaptive_kp = 180;
+% adaptive_ki = 60;
+% adaptive_kd = 10;
+
+adaptive_kp = 2000.2531;
+adaptive_ki = 200.8690;
+adaptive_kd = 24.4522;
 
 %optimize
-ts = linspace(0,2)
-ys = [zeros(1,20), 50*ones(1,80)]
+ts = linspace(0,2);
+ys = [zeros(1,20), 50*ones(1,80)];
